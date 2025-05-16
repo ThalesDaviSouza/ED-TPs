@@ -1,27 +1,35 @@
 #include <iostream>
 #include <cstdlib>
 #include "sort.hpp"
+#include "ordenador.hpp"
 
 
 int main(){
-  int numeros[20] = {13, 7, 1, 18, 10, 5, 20, 2, 14, 9,
-                       6, 16, 3, 12, 19, 8, 11, 17, 15, 4};
+  OrdenadorUniversal ordenador = OrdenadorUniversal();
+  int numeros[20] = {
+    18, 12, 6, 23, 15,
+    10, 25, 7, 19, 14,
+    11, 21, 8, 17, 24,
+    13, 16, 22, 20, 9
+};
 
+  int seed = 1;
+
+  //TODO: trocar por srand48
+  srand(seed);
+  
   Sort::QuickSort(numeros, 20);
-
+  
+  ordenador.shuffleVector(numeros, 20, 3);
+  
   for(int& x : numeros){
     cout << x << " ";
   }
-
-  // cout << "Teste: " << Sort::qtdCalls++ << endl;
-  // cout << "Teste: " << Sort::qtdCalls << endl;
-
-  // srand(101);
-  // int teste = (int)(rand()*10);
-  // int teste1 = (int)(rand()*10);
-
-  // cout << teste << endl;
-  // cout << teste1 << endl;
+  Sort::QuickSort(numeros, 20);
+  cout << endl;
+  for(int& x : numeros){
+    cout << x << " ";
+  }
 
 
   return 0;

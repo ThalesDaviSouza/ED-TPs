@@ -21,6 +21,7 @@ extremos de ineficiência do algoritmo.
 - "minTamParticao" ou "limiar de partição": Determinado pela estratégia de varredura apresentada na Figura 2.
   - A estratégia é a seguinte: começamos com 2 valores, 2 (minMPS ou valor mínimo partição) e tamanho do array (maxMPS ou tamanho máximo da partição). Definimos então de quanto em quanto que iremos andar pela fórmula "passoMPS = (maxMPS - minMPS)/5" (passoMPS). Então, serão encontradas 5 faixas de valores com custos diferentes. Após isso, o "limite da partição" será o menor custo que encontramos e calculamos a "nova faixa" e a "diferença do custo" (diffCusto = valor absoluto(custo[ minMPS ] - custo[ maxMPS ]), ou seja, valor do absoluto do (custo do valor mínimo (minMPS) - custo do valor máximo(maxMPS))). E então será repetido o processo até que a diffCusto seja menor que o limiar do custo passado na entrada ou até que número de passos (numMPS) seja menor que 5.
 - Custo de ordenação será: f(comparacoes, moves, calls) = a∗comparacoes + b∗moves + c∗calls;
+- Preparar o vetor com número controla de quebras: ordenar o vetor de entrada e em seguida aplicar um embaralhamento baseado na seed fornecida. 
 
 # Exemplo de entrada:
 - 10 (lim de convergêcia)

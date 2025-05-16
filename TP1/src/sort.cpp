@@ -1,6 +1,6 @@
 #include "sort.hpp"
 
-int Sort::QUICK_SORT_SIZE = 5;
+int Sort::QUICK_SORT_SIZE = 1;
 
 int Sort::InQtdComparations = 0;
 int Sort::InQtdMoves = 0;
@@ -62,10 +62,12 @@ void Sort::QsResetCalls(){
 void Sort::_insertionSort(int V[], int l, int r){
   InIncCalls();
 
-  for(int i = 1; i < r; i++){
+  int j;
+
+  for(int i = l+1; i <= r; i++){
     InIncMoves();
-    int j = i - 1;
     int aux = V[i];
+    j = i - 1;
 
     InIncCmp();
     while(j >= 0 && V[j] > aux){
@@ -83,7 +85,7 @@ void Sort::InsertionSort(int vetor[], int tam){
   InResetCmp();
   InResetCalls();
   InResetMoves();
-  _insertionSort(vetor, 0, tam);
+  _insertionSort(vetor, 0, tam-1);
 }
 
 int Sort::median (int a, int b, int c) {
@@ -153,5 +155,5 @@ void Sort::QuickSort(int vetor[], int tam){
   QsResetCmp();
   QsResetCalls();
   QsResetMoves();
-  Sort::quickSort3Ins(vetor, 0, tam);
+  Sort::quickSort3Ins(vetor, 0, tam-1);
 }
