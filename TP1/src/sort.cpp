@@ -2,13 +2,9 @@
 
 int Sort::QUICK_SORT_SIZE = 1;
 
-int Sort::InQtdComparations = 0;
-int Sort::InQtdMoves = 0;
-int Sort::InQtdCalls = 0;
-
-int Sort::QsQtdComparations = 0;
-int Sort::QsQtdMoves = 0;
-int Sort::QsQtdCalls = 0;
+int Sort::qtdCmp = 0;
+int Sort::qtdMoves = 0;
+int Sort::qtdCalls = 0;
 
 void Sort::swap(int vetor[], int posX, int posY){
   int aux = vetor[posX];
@@ -16,47 +12,28 @@ void Sort::swap(int vetor[], int posX, int posY){
   vetor[posX] = vetor[posY];
   vetor[posY] = aux; 
 
-  QsIncMoves();
-  QsIncMoves();
-  QsIncMoves();
+  incMoves();
+  incMoves();
+  incMoves();
 }
 
-void Sort::InIncCmp(){
-  InQtdComparations++;
+void Sort::incCmp(){
+  qtdCmp++;
 }
-void Sort::InResetCmp(){
-  InQtdComparations = 0;
+void Sort::resetCmp(){
+  qtdCmp = 0;
 }
-void Sort::InIncMoves(){
-  InQtdMoves++;
+void Sort::incMoves(){
+  qtdMoves++;
 }
-void Sort::InResetMoves(){
-  InQtdMoves = 0;
+void Sort::resetMoves(){
+  qtdMoves = 0;
 }
-void Sort::InIncCalls(){
-  InQtdCalls++;
+void Sort::incCalls(){
+  qtdCalls++;
 }
-void Sort::InResetCalls(){
-  InQtdCalls = 0;
-}
-
-void Sort::QsIncCmp(){
-  QsQtdComparations++;
-}
-void Sort::QsResetCmp(){
-  QsQtdComparations = 0;
-}
-void Sort::QsIncMoves(){
-  QsQtdMoves++;
-}
-void Sort::QsResetMoves(){
-  QsQtdMoves = 0;
-}
-void Sort::QsIncCalls(){
-  QsQtdCalls++;
-}
-void Sort::QsResetCalls(){
-  QsQtdCalls = 0;
+void Sort::resetCalls(){
+  qtdCalls = 0;
 }
 
 void Sort::SetTamParticao(int tam){
@@ -64,31 +41,31 @@ void Sort::SetTamParticao(int tam){
 }
 
 void Sort::_insertionSort(int V[], int l, int r){
-  InIncCalls();
+  incCalls();
 
   int j;
 
   for(int i = l+1; i <= r; i++){
-    InIncMoves();
+    incMoves();
     int aux = V[i];
     j = i - 1;
 
-    InIncCmp();
+    incCmp();
     while(j >= 0 && V[j] > aux){
-      InIncCmp();
-      InIncMoves();
+      incCmp();
+      incMoves();
       V[j + 1] = V[j];  
       j--;
     }
 
-    InIncMoves();
+    incMoves();
     V[j+1] = aux;
   }
 }
 void Sort::InsertionSort(int vetor[], int tam){
-  InResetCmp();
-  InResetCalls();
-  InResetMoves();
+  resetCmp();
+  resetCalls();
+  resetMoves();
   _insertionSort(vetor, 0, tam-1);
 }
 
@@ -103,7 +80,7 @@ int Sort::median (int a, int b, int c) {
 
 void Sort::partition3(int V[], int l, int r, int *i, int *j) {
   int x;
-  QsIncCalls();
+  incCalls();
   *i = l;
   *j = r;
 
@@ -113,15 +90,15 @@ void Sort::partition3(int V[], int l, int r, int *i, int *j) {
   { 
     while (x > V[*i]){
       (*i)++;
-      QsIncCmp();
+      incCmp();
     }
-    QsIncCmp();
+    incCmp();
     while (x < V[*j]){
       (*j)--;
-      QsIncCmp();
+      incCmp();
     } 
     
-    QsIncCmp();
+    incCmp();
     if (*i <= *j)
     {
       swap(V, *i, *j);
@@ -135,7 +112,7 @@ void Sort::partition3(int V[], int l, int r, int *i, int *j) {
 void Sort::quickSort3Ins(int * V, int l, int r){
   int i, j;
 
-  QsIncCalls();
+  incCalls();
 
   partition3(V, l, r, &i, &j);
   
@@ -156,8 +133,8 @@ void Sort::quickSort3Ins(int * V, int l, int r){
 }
 
 void Sort::QuickSort(int vetor[], int tam){ 
-  QsResetCmp();
-  QsResetCalls();
-  QsResetMoves();
+  resetCmp();
+  resetCalls();
+  resetMoves();
   Sort::quickSort3Ins(vetor, 0, tam-1);
 }

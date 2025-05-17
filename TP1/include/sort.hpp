@@ -3,6 +3,11 @@
 using namespace std;
 #include <iostream>
 
+enum SortingAlgorithm{
+  quick,
+  insertion
+};
+
 class Sort{
   private:
     static void swap(int vetor[], int posX, int posY);
@@ -14,32 +19,20 @@ class Sort{
     static void InsertionSort(int vetor[], int tam);
     static void QuickSort(int vetor[], int tam);
 
-    // Variáveis para metricas do Insertion Sort 
-    static int InQtdComparations;
-    static int InQtdMoves;
-    static int InQtdCalls;
-
-    // Variáveis para metricas do Quick Sort 
-    static int QsQtdComparations;
-    static int QsQtdMoves;
-    static int QsQtdCalls;
+    // Variáveis para metricas
+    static int qtdCmp;
+    static int qtdMoves;
+    static int qtdCalls;
 
     static int QUICK_SORT_SIZE;
 
-    static void InIncCmp();
-    static void InResetCmp();
-    static void InIncMoves();
-    static void InResetMoves();
-    static void InIncCalls();
-    static void InResetCalls();
+    static void incCmp();
+    static void resetCmp();
+    static void incMoves();
+    static void resetMoves();
+    static void incCalls();
+    static void resetCalls();
     
-    static void QsIncCmp();
-    static void QsResetCmp();
-    static void QsIncMoves();
-    static void QsResetMoves();
-    static void QsIncCalls();
-    static void QsResetCalls();
-
     static void SetTamParticao(int tam);
   };
   

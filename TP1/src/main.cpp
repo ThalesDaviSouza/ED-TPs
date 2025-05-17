@@ -33,42 +33,23 @@ int main(int argc, char** argv){
   // numQuebras = drand48() * tamArray;
   numQuebras = rand() % tamArray;
 
-  
+  // numQuebras = 758;
+
   OrdenadorUniversal ordenador = OrdenadorUniversal(a, b, c, numQuebras);
   
-  
-  // cout << "seed: " << seed << endl;
-  // cout << "limiarCusto: " << limiarCusto << endl;
-  // cout << "a: " << a << endl;
-  // cout << "b: " << b << endl;
-  // cout << "c: " << c << endl;
-  // cout << "tamArray: " << tamArray << endl;
-  
+  cout << "size " << tamArray;
+  cout << " seed " << seed;
+  cout << " breaks " << numQuebras << endl << endl; 
   
   vetor = new int[tamArray];
   for(int i = 0; i < tamArray; i++){
     cin >> vetor[i];
   }
   
-  Sort::QuickSort(vetor, tamArray);
-  
+  Sort::QuickSort(vetor, tamArray);  
   
   ordenador.determinarLimiarParticao(vetor, tamArray, limiarCusto);
-
-
-  // Sort::QuickSort(numeros, 20);
-  
-  // ordenador.shuffleVector(numeros, 20, 3);
-  
-  // for(int& x : numeros){
-  //   cout << x << " ";
-  // }
-  // Sort::QuickSort(numeros, 20);
-  // cout << endl;
-  // for(int& x : numeros){
-  //   cout << x << " ";
-  // }
-
+  ordenador.determinarLimiarQuebras(vetor, tamArray, limiarCusto);
 
   return 0;
 }
