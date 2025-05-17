@@ -6,6 +6,16 @@
 
 using namespace std;
 
+int getNumBreaks(int* vetor, int tamanho) {
+  int cont = 0;
+  for (int i = 0; i < tamanho - 1; ++i) {
+      if (vetor[i] > vetor[i + 1]) {
+          ++cont;
+      }
+  }
+  return cont;
+}
+
 int main(int argc, char** argv){
   int* vetor;
   int seed, num;
@@ -26,19 +36,19 @@ int main(int argc, char** argv){
   cin >> c;
   cin >> tamArray;
 
+  vetor = new int[tamArray];
+  for(int i = 0; i < tamArray; i++){
+    cin >> vetor[i];
+  }
+  
   srand48(seed);
-  numQuebras = drand48() * tamArray;
+  numQuebras = getNumBreaks(vetor, tamArray);
 
   OrdenadorUniversal ordenador = OrdenadorUniversal(a, b, c, numQuebras, seed);
   
   cout << "size " << tamArray;
   cout << " seed " << seed;
   cout << " breaks " << numQuebras << endl << endl; 
-  
-  vetor = new int[tamArray];
-  for(int i = 0; i < tamArray; i++){
-    cin >> vetor[i];
-  }
   
   Sort::QuickSort(vetor, tamArray);  
   

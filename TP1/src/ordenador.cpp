@@ -210,7 +210,7 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
     for(int tamMin = minMPS; tamMin <= maxMPS; tamMin += passoMPS){
       srand48(seed);
       shuffleVector(vetor, tam, numQuebras);
-      ordenadorUniversal(vetor, tam, limiarCusto, tam);
+      ordenadorUniversal(vetor, tam, tamMin, tam);
       registraEstatisticasMinParticao(tamMin, numMPS);
       imprimeEstatisticasMinParticao(Registros[numMPS]);
       numMPS++;
@@ -220,7 +220,7 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
 
     int minNumMPS = getNumMPS(minMPS, passoMPS, minMPS);
     int maxNumMPS = getNumMPS(minMPS, passoMPS, maxMPS);
-    
+
     diffCusto = fabs(Registros[minNumMPS].cost - Registros[maxNumMPS].cost);
     
 
