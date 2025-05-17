@@ -5,27 +5,24 @@ o "número de quebras", ou seja, o "número de vezes que um elemento é menor qu
 seu antecessor imediato". Note que se um vetor de tamanho n estiver inversamente
 ordenado, o número de quebras é n − 1.
 
-- Números de quebras = número de vezes que um elemento é menor que o seu antecessor imediato
-  - Número de quebras = quantas antecessores um elemento é menor
+- Números de quebras = número que inversões no array
   - Para o vetor [5 4 3 2 1] (inversamente ordenado), número de quebras = n-1 
 
-2. Para vetores cujo tamanho seja menor que um limiar, o algoritmo inserção deve
-ser mais eficiente que o quickSort recursivo. Utilize mediana de 3 para evitar casos
-extremos de ineficiência do algoritmo.
+2. Para vetores cujo tamanho seja menor que um limiar, o algoritmo inserção deve ser mais eficiente que o quickSort recursivo. Utilize mediana de 3 para evitar casos extremos de ineficiência do algoritmo.
 
 - Vetor menor que um limiar -> Usar insertion
 - Vetor maior que um limiar -> Usar quicksort com insertion e com mediana de 3
 
 # Desafios:
-- Determinar os valores para "limiarQuebras"
 - "minTamParticao" ou "limiar de partição": Determinado pela estratégia de varredura apresentada na Figura 2.
-  - A estratégia é a seguinte: começamos com 2 valores, 2 (minMPS ou valor mínimo partição) e tamanho do array (maxMPS ou tamanho máximo da partição). Definimos então de quanto em quanto que iremos andar pela fórmula "passoMPS = (maxMPS - minMPS)/5" (passoMPS). Então, serão encontradas 5 faixas de valores com custos diferentes. Após isso, o "limite da partição" será o menor custo que encontramos e calculamos a "nova faixa" e a "diferença do custo" (diffCusto = valor absoluto(custo[ minMPS ] - custo[ maxMPS ]), ou seja, valor do absoluto do (custo do valor mínimo (minMPS) - custo do valor máximo(maxMPS))). E então será repetido o processo até que a diffCusto seja menor que o limiar do custo passado na entrada ou até que número de passos (numMPS) seja menor que 5.
+  - A estratégia é a seguinte: começamos com 2 valores, 2 (minMPS ou valor mínimo partição) e tamanho do array (maxMPS ou tamanho máximo da partição). Definimos então de quanto em quanto que iremos andar pela fórmula "passoMPS = (maxMPS - minMPS)/5" (passoMPS). Então, serão encontradas 5 faixas de valores com custos diferentes. Após isso, o "limite da partição" (limParticao) será o número do passo (numMPS) do menor custo que encontramos e calculamos a "nova faixa" e a "diferença do custo" (diffCusto = valor absoluto(custo[ minMPS ] - custo[ maxMPS ]), ou seja, valor do absoluto do (custo do valor mínimo (minMPS) - custo do valor máximo(maxMPS))). E então será repetido o processo até que a diffCusto seja menor que o limiar do custo passado na entrada ou até que número de passos (numMPS) seja menor que 5.
 - Custo de ordenação será: f(comparacoes, moves, calls) = a∗comparacoes + b∗moves + c∗calls;
 - Preparar o vetor com número controla de quebras: ordenar o vetor de entrada e em seguida aplicar um embaralhamento baseado na seed fornecida. 
+- Determinar os valores para "limiarQuebras": usar a mesma lógica utilizada para o "minTamParticao" ou "limiar de partição", porém considerando as execuções do quicksort (qs) e do insertion sort (in) separadamente. Na hora de descobrir o menor custo (limParticao) deve ser descoberto o algoritmo que teve o menor custo, quicksort (qs) ou insertion sort (in). Ao descobrir o tipo do algoritmo, o limParticao será a posição no array de custo dele e então no calculo da diferença (diffCusto), deverá ser considerado apenas o tipo do algoritmo com o menor custo. 
 
 # Exemplo de entrada:
 - 1 (seed)
-- 10 (lim de convergêcia)
+- 10.000 (lim de convergêcia)
 - 0.012156 (valor de a)
 - -0.00637855 (valor de b)
 - 0.0172897 (valor de c)

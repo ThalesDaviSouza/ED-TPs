@@ -7,19 +7,18 @@
 using namespace std;
 
 int main(int argc, char** argv){
-  OrdenadorUniversal ordenador = OrdenadorUniversal();
   int* vetor;
   int seed, num;
   double a, b , c;
   float limiarCusto;
   int tamArray;
-
-  // Redireciona a entrada padrão (cin) para ler do arquivo
+  int numQuebras;
+  
   if (freopen(argv[1], "r", stdin) == nullptr) {
-      cerr << "Erro ao abrir o arquivo: " << argv[1] << std::endl;
-      return 1;
+    cerr << "Erro ao abrir o arquivo: " << argv[1] << std::endl;
+    return 1;
   }
-
+  
   cin >> seed;
   cin >> limiarCusto;
   cin >> a;
@@ -27,23 +26,36 @@ int main(int argc, char** argv){
   cin >> c;
   cin >> tamArray;
 
+  //TODO: trocar por:
+  // srand48(seed);
+  srand(seed);
+  // TODO: trocar por:
+  // numQuebras = drand48() * tamArray;
+  numQuebras = rand() % tamArray;
+
+  
+  OrdenadorUniversal ordenador = OrdenadorUniversal(a, b, c, numQuebras);
+  
+  
   // cout << "seed: " << seed << endl;
   // cout << "limiarCusto: " << limiarCusto << endl;
   // cout << "a: " << a << endl;
   // cout << "b: " << b << endl;
   // cout << "c: " << c << endl;
   // cout << "tamArray: " << tamArray << endl;
-
-
+  
+  
   vetor = new int[tamArray];
   for(int i = 0; i < tamArray; i++){
     cin >> vetor[i];
   }
   
-
-  //TODO: trocar por srand48
-  // srand(seed);
+  Sort::QuickSort(vetor, tamArray);
   
+  
+  ordenador.determinarLimiarParticao(vetor, tamArray, limiarCusto);
+
+
   // Sort::QuickSort(numeros, 20);
   
   // ordenador.shuffleVector(numeros, 20, 3);
