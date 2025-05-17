@@ -27,15 +27,13 @@ int main(int argc, char** argv){
   cin >> tamArray;
 
   //TODO: trocar por:
-  // srand48(seed);
-  srand(seed);
+  srand48(seed);
+  // srand(seed);
   // TODO: trocar por:
-  // numQuebras = drand48() * tamArray;
-  numQuebras = rand() % tamArray;
+  numQuebras = drand48() * tamArray;
+  // numQuebras = rand() % tamArray;
 
-  // numQuebras = 758;
-
-  OrdenadorUniversal ordenador = OrdenadorUniversal(a, b, c, numQuebras);
+  OrdenadorUniversal ordenador = OrdenadorUniversal(a, b, c, numQuebras, seed);
   
   cout << "size " << tamArray;
   cout << " seed " << seed;

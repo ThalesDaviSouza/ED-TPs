@@ -9,6 +9,7 @@ class OrdenadorUniversal{
   private:
     double a, b, c;
     int numQuebras;
+    int seed;
     Registro Registros[6];
     Registro InRegistros[6];
     Registro QsRegistros[6];
@@ -26,8 +27,8 @@ class OrdenadorUniversal{
     void imprimeEstatisticasLimiarQuebras(int numMPS, SortingAlgorithm algo);
 
   public:
-    OrdenadorUniversal(double a, double b, double c, int numQuebras)
-    : a(a), b(b), c(c), numQuebras(numQuebras) { }
+    OrdenadorUniversal(double a, double b, double c, int numQuebras, int seed)
+    : a(a), b(b), c(c), numQuebras(numQuebras), seed(seed) { }
     OrdenadorUniversal();
     int determinarLimiarParticao(int vetor[], int tam, int limiarCusto);
     int determinarLimiarQuebras(int vetor[], int tam, int limiarCusto);

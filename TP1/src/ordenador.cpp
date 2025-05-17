@@ -11,12 +11,8 @@ void OrdenadorUniversal::shuffleVector(int vetor[], int size, int numShuffle){
 
   for(int i = 0; i < numShuffle; i++){
     while(p1 == p2){
-      p1 = (int)(rand() % size);
-      p2 = (int)(rand() % size);
-      
-      // TODO: trocar por:
-      // p1 = (int)(drand48() * size);
-      // p2 = (int)(drand48() * size);
+      p1 = (int)(drand48() * size);
+      p2 = (int)(drand48() * size);
     }
    
     temp = vetor[p1];
@@ -25,7 +21,6 @@ void OrdenadorUniversal::shuffleVector(int vetor[], int size, int numShuffle){
     p1 = 0;
     p2 = 0;
   }
-
 }
 
 int OrdenadorUniversal::_passoMPS(int max, int min){
@@ -213,6 +208,7 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
     cout << "inter " << i << endl;
     numMPS = 0;
     for(int tamMin = minMPS; tamMin <= maxMPS; tamMin += passoMPS){
+      srand48(seed);
       shuffleVector(vetor, tam, numQuebras);
       ordenadorUniversal(vetor, tam, limiarCusto, tam);
       registraEstatisticasMinParticao(tamMin, numMPS);
@@ -251,15 +247,15 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
   do{
     cout << "inter " << i << endl;
     numMPS = 0;
+
     for(int limQuebras = minMPS; limQuebras <= maxMPS; limQuebras += passoMPS){
-      // Sort::SetTamParticao(limQuebras);
-      // ordenadorUniversal(vetor, tam, limQuebras, tam);
-      
+      srand48(seed);
       shuffleVector(vetor, tam, limQuebras);
       Sort::QuickSort(vetor, tam);
       registraEstatisticasLimQuebras(limQuebras, numMPS, quick);
       imprimeEstatisticasLimiarQuebras(numMPS, quick);
       
+      srand48(seed);
       shuffleVector(vetor, tam, limQuebras);
       Sort::InsertionSort(vetor, tam);
       registraEstatisticasLimQuebras(limQuebras, numMPS, insertion);
