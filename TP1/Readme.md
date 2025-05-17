@@ -24,6 +24,7 @@ extremos de ineficiência do algoritmo.
 - Preparar o vetor com número controla de quebras: ordenar o vetor de entrada e em seguida aplicar um embaralhamento baseado na seed fornecida. 
 
 # Exemplo de entrada:
+- 1 (seed)
 - 10 (lim de convergêcia)
 - 0.012156 (valor de a)
 - -0.00637855 (valor de b)

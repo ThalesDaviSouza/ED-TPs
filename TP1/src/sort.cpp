@@ -59,6 +59,10 @@ void Sort::QsResetCalls(){
   QsQtdCalls = 0;
 }
 
+void Sort::SetTamParticao(int tam){
+  QUICK_SORT_SIZE = tam;
+}
+
 void Sort::_insertionSort(int V[], int l, int r){
   InIncCalls();
 

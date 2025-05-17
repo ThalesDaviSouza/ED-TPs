@@ -39,6 +39,8 @@ class Sort{
     static void QsResetMoves();
     static void QsIncCalls();
     static void QsResetCalls();
+
+    static void SetTamParticao(int tam);
   };
   
   

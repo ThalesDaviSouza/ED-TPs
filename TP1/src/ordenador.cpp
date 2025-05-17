@@ -73,6 +73,7 @@ void OrdenadorUniversal::registraEstatisticas(int tamMin, int numMPS){
 //       numMPS++;
 //     }
 //     // TODO: continuar do limParticao
+//     continuar daqui;
 
 //   }while (diffCusto > limiarCusto && numMPS >= 5);
 
