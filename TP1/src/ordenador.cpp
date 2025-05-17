@@ -216,6 +216,7 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
       // srand48(seed);
       // shuffleVector(vetor, tam, numQuebras);
       copiaVetor(vetor, tam);
+      Sort::SetTamParticao(tamMin);
       ordenadorUniversal(vetor, tam, tamMin, 0);
       registraEstatisticasMinParticao(tamMin, numMPS);
       imprimeEstatisticasMinParticao(Registros[numMPS]);
