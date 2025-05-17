@@ -220,6 +220,7 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
 
     int minNumMPS = getNumMPS(minMPS, passoMPS, minMPS);
     int maxNumMPS = getNumMPS(minMPS, passoMPS, maxMPS);
+    
     diffCusto = fabs(Registros[minNumMPS].cost - Registros[maxNumMPS].cost);
     
 
