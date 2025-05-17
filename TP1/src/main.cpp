@@ -26,8 +26,8 @@ int main(int argc, char** argv){
   cin >> c;
   cin >> tamArray;
 
-  numQuebras = drand48() * tamArray;
   srand48(seed);
+  numQuebras = drand48() * tamArray;
 
   OrdenadorUniversal ordenador = OrdenadorUniversal(a, b, c, numQuebras, seed);
   
