@@ -82,14 +82,14 @@ void OrdenadorUniversal::registraEstatisticasLimQuebras(int breaks, int numMPS, 
   }
 }
 
-double OrdenadorUniversal::calcularCusto(int cmp, int move, int calls){
+float OrdenadorUniversal::calcularCusto(int cmp, int move, int calls){
   return fabs((a * cmp) + (b * move) + (c * calls));
 }
 
 int OrdenadorUniversal::menorCustoMinParticao(int numMPS){
   int cmp, moves, calls;
   int menorCusto, idMenorCusto;
-  double custo;
+  float custo;
 
   for(int i = 0; i < numMPS; i++){
     cmp = Registros[i].cmp;
@@ -113,7 +113,7 @@ int OrdenadorUniversal::menorCustoMinParticao(int numMPS){
 int OrdenadorUniversal::menorCustoLimiarQuebras(int numMPS, SortingAlgorithm *sort){
   int cmp, moves, calls;
   int menorCusto, idMenorCusto;
-  double custoQs, custoIn;
+  float custoQs, custoIn;
 
   for(int i = 0; i < numMPS; i++){
     
@@ -140,11 +140,7 @@ int getMPS(int minMPS, int passoMPS, int num){
   return minMPS + (passoMPS * num);
 }
 
-int getNumMPS(int minMPS, int passoMPS, int value){
-  return (value - minMPS) / passoMPS;
-}
-
-void OrdenadorUniversal::calculaNovaFaixa(float limParticao, int* minMPS, int* maxMPS, int* passoMPS, int* numMPS){
+void OrdenadorUniversal::calculaNovaFaixa(float limParticao, int* minMPS, int* maxMPS, int* passoMPS, int* numMPS, int *minNumMPS, int *maxNumMPS){
   int newMin, newMax;
   if(limParticao == 0){
     newMin = 0;
@@ -155,9 +151,12 @@ void OrdenadorUniversal::calculaNovaFaixa(float limParticao, int* minMPS, int* m
     newMax = *numMPS - 1;
   }
   else{
-    newMin = limParticao -1;
-    newMax = limParticao+1;
+    newMin = limParticao - 1;
+    newMax = limParticao + 1;
   }
+
+  *minNumMPS = newMin;
+  *maxNumMPS = newMax;
 
   *minMPS = getMPS(*minMPS, *passoMPS, newMin);
   *maxMPS = getMPS(*minMPS, *passoMPS, newMax);
@@ -199,7 +198,7 @@ void OrdenadorUniversal::copiaVetor(int vetor[], int tam){
 }
 
 int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limiarCusto){
-  double diffCusto;
+  float diffCusto;
   int minMPS = 2;
   int maxMPS = tam;
   int numMPS = 0;
@@ -212,9 +211,8 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
   do{
     cout << "inter " << i << endl;
     numMPS = 0;
+
     for(int tamMin = minMPS; tamMin <= maxMPS; tamMin += passoMPS){
-      // srand48(seed);
-      // shuffleVector(vetor, tam, numQuebras);
       copiaVetor(vetor, tam);
       Sort::SetTamParticao(tamMin);
       ordenadorUniversal(vetor, tam, tamMin, 0);
@@ -223,10 +221,10 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
       numMPS++;
     }
     limParticao = menorCustoMinParticao(numMPS);
-    calculaNovaFaixa(limParticao, &minMPS, &maxMPS, &passoMPS, &numMPS);
+    int minNumMPS;
+    int maxNumMPS;
+    calculaNovaFaixa(limParticao, &minMPS, &maxMPS, &passoMPS, &numMPS, &minNumMPS, &maxNumMPS);
 
-    int minNumMPS = getNumMPS(minMPS, passoMPS, minMPS);
-    int maxNumMPS = getNumMPS(minMPS, passoMPS, maxMPS);
 
     diffCusto = fabs(Registros[minNumMPS].cost - Registros[maxNumMPS].cost);
     
@@ -241,7 +239,7 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
 }
 
 int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiarCusto){
-  double diffCusto;
+  float diffCusto;
   int minMPS = 2;
   int maxMPS = tam;
   int numMPS = 0;
@@ -272,10 +270,10 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
       numMPS++;
     }
     limParticao = menorCustoLimiarQuebras(numMPS, &sort);
-    calculaNovaFaixa(limParticao, &minMPS, &maxMPS, &passoMPS, &numMPS);
+    int minNumMPS;
+    int maxNumMPS;
+    calculaNovaFaixa(limParticao, &minMPS, &maxMPS, &passoMPS, &numMPS, &minNumMPS, &maxNumMPS);
 
-    int minNumMPS = getNumMPS(minMPS, passoMPS, minMPS);
-    int maxNumMPS = getNumMPS(minMPS, passoMPS, maxMPS);
     
     if(sort == quick){
       diffCusto = fabs(QsRegistros[minNumMPS].cost - QsRegistros[maxNumMPS].cost);

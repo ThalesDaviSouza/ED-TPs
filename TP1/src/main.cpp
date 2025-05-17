@@ -20,7 +20,7 @@ int main(int argc, char** argv){
   int* vetorOrig;
   int* vetorCopia;
   int seed, num;
-  double a, b , c;
+  float a, b , c;
   float limiarCusto;
   int tamArray;
   int numQuebras;
