@@ -10,6 +10,7 @@ class OrdenadorUniversal{
     double a, b, c;
     int numQuebras;
     int seed;
+    int *vetorOrig;
     Registro Registros[6];
     Registro InRegistros[6];
     Registro QsRegistros[6];
@@ -25,10 +26,11 @@ class OrdenadorUniversal{
     void calculaNovaFaixa(float limParticao, int* minMPS, int* maxMPS, int* passoMPS, int* numMPS);
     void imprimeEstatisticasMinParticao(Registro r);
     void imprimeEstatisticasLimiarQuebras(int numMPS, SortingAlgorithm algo);
+    void copiaVetor(int vetor[], int tam);
 
   public:
-    OrdenadorUniversal(double a, double b, double c, int numQuebras, int seed)
-    : a(a), b(b), c(c), numQuebras(numQuebras), seed(seed) { }
+    OrdenadorUniversal(double a, double b, double c, int numQuebras, int seed, int* vetorOrig)
+    : a(a), b(b), c(c), numQuebras(numQuebras), seed(seed), vetorOrig(vetorOrig) { }
     OrdenadorUniversal();
     int determinarLimiarParticao(int vetor[], int tam, int limiarCusto);
     int determinarLimiarQuebras(int vetor[], int tam, int limiarCusto);

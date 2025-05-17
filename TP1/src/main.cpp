@@ -17,7 +17,8 @@ int getNumBreaks(int* vetor, int tamanho) {
 }
 
 int main(int argc, char** argv){
-  int* vetor;
+  int* vetorOrig;
+  int* vetorCopia;
   int seed, num;
   double a, b , c;
   float limiarCusto;
@@ -36,24 +37,25 @@ int main(int argc, char** argv){
   cin >> c;
   cin >> tamArray;
 
-  vetor = new int[tamArray];
+  vetorOrig = new int[tamArray];
+  vetorCopia = new int[tamArray];
   for(int i = 0; i < tamArray; i++){
-    cin >> vetor[i];
+    cin >> vetorOrig[i];
   }
   
   srand48(seed);
-  numQuebras = getNumBreaks(vetor, tamArray);
+  numQuebras = getNumBreaks(vetorOrig, tamArray);
 
-  OrdenadorUniversal ordenador = OrdenadorUniversal(a, b, c, numQuebras, seed);
+  OrdenadorUniversal ordenador = OrdenadorUniversal(a, b, c, numQuebras, seed, vetorOrig);
   
   cout << "size " << tamArray;
   cout << " seed " << seed;
   cout << " breaks " << numQuebras << endl << endl; 
   
-  Sort::QuickSort(vetor, tamArray);  
+  // Sort::QuickSort(vetorCopia, tamArray);  
   
-  ordenador.determinarLimiarParticao(vetor, tamArray, limiarCusto);
-  ordenador.determinarLimiarQuebras(vetor, tamArray, limiarCusto);
+  ordenador.determinarLimiarParticao(vetorCopia, tamArray, limiarCusto);
+  ordenador.determinarLimiarQuebras(vetorCopia, tamArray, limiarCusto);
 
   return 0;
 }

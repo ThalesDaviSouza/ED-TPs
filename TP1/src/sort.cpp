@@ -117,14 +117,14 @@ void Sort::quickSort3Ins(int * V, int l, int r){
   partition3(V, l, r, &i, &j);
   
   if (l < j) {
-      if(j - l <= QUICK_SORT_SIZE){
+      if((j - l) <= QUICK_SORT_SIZE){
         Sort::_insertionSort(V, l, j);
       }else{
         quickSort3Ins(V, l, j);
       }
     }
   if (i < r) {
-      if(r - i <= QUICK_SORT_SIZE){
+      if((r - i) <= QUICK_SORT_SIZE){
         Sort::_insertionSort(V, i, r);
       }else{
         quickSort3Ins(V, i, r);

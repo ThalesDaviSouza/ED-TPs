@@ -28,7 +28,6 @@ int OrdenadorUniversal::_passoMPS(int max, int min){
 }
 
 
-// TODO: implementar a função OrdenadorUniversal
 void OrdenadorUniversal::ordenadorUniversal(int vetor[], int tam, int minTamParticao, int limiarQuebras){
   if(numQuebras < limiarQuebras){
     Sort::InsertionSort(vetor, tam);
@@ -193,6 +192,12 @@ void OrdenadorUniversal::imprimeEstatisticasLimiarQuebras(int numMPS, SortingAlg
   cout << "calls " << r.calls << endl;
 }
 
+void OrdenadorUniversal::copiaVetor(int vetor[], int tam){
+  for(int i = 0; i < tam; i++){
+    vetor[i] = vetorOrig[i];
+  }
+}
+
 int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limiarCusto){
   double diffCusto;
   int minMPS = 2;
@@ -208,8 +213,9 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
     cout << "inter " << i << endl;
     numMPS = 0;
     for(int tamMin = minMPS; tamMin <= maxMPS; tamMin += passoMPS){
-      srand48(seed);
-      shuffleVector(vetor, tam, numQuebras);
+      // srand48(seed);
+      // shuffleVector(vetor, tam, numQuebras);
+      copiaVetor(vetor, tam);
       ordenadorUniversal(vetor, tam, tamMin, 0);
       registraEstatisticasMinParticao(tamMin, numMPS);
       imprimeEstatisticasMinParticao(Registros[numMPS]);
