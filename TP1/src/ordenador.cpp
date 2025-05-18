@@ -249,11 +249,9 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
   int maxMPS = tam;
   int numMPS = 0;
   int passoMPS = _passoMPS(maxMPS, minMPS);
-  int limParticao;
+  int limQuebras;
   int i = 0;
   SortingAlgorithm sort;
-
-  Sort::SetTamParticao(50);
 
   do{
     cout << "iter " << i << endl;
@@ -274,10 +272,11 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
 
       numMPS++;
     }
-    limParticao = menorCustoLimiarQuebras(numMPS, &sort);
+
+    limQuebras = menorCustoLimiarQuebras(numMPS, &sort);
     int minNumMPS;
     int maxNumMPS;
-    calculaNovaFaixa(limParticao, &minMPS, &maxMPS, &passoMPS, &numMPS, &minNumMPS, &maxNumMPS);
+    calculaNovaFaixa(limQuebras, &minMPS, &maxMPS, &passoMPS, &numMPS, &minNumMPS, &maxNumMPS);
 
     
     if(sort == quick){
@@ -290,13 +289,14 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
     cout << "numlq " << numMPS;
     
     if(sort == quick)
-      cout << " limQuebras " << QsRegistros[limParticao].mps;
+      cout << " limQuebras " << QsRegistros[limQuebras].mps;
     else if(sort == insertion)
-      cout << " limQuebras " << InRegistros[limParticao].mps;
+      cout << " limQuebras " << InRegistros[limQuebras].mps;
 
     cout << " lqdiff " << diffCusto << endl << endl;
     i++;
+
   }while (diffCusto > limiarCusto && numMPS >= 5);
 
-  return limParticao;
+  return limQuebras;
 }

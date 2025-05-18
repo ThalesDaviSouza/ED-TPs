@@ -51,7 +51,8 @@ int main(int argc, char** argv){
   cout << " seed " << seed;
   cout << " breaks " << numQuebras << endl << endl; 
    
-  ordenador.determinarLimiarParticao(vetorCopia, tamArray, limiarCusto);
+  int minParticao = ordenador.determinarLimiarParticao(vetorCopia, tamArray, limiarCusto);
+  Sort::SetTamParticao(minParticao);
   ordenador.determinarLimiarQuebras(vetorCopia, tamArray, limiarCusto);
 
   return 0;
