@@ -245,7 +245,7 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
 
 int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiarCusto){
   double diffCusto;
-  int minMPS = 2;
+  int minMPS = 1;
   int maxMPS = tam;
   int numMPS = 0;
   int passoMPS = _passoMPS(maxMPS, minMPS);
@@ -276,6 +276,7 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
     limQuebras = menorCustoLimiarQuebras(numMPS, &sort);
     int minNumMPS;
     int maxNumMPS;
+
     calculaNovaFaixa(limQuebras, &minMPS, &maxMPS, &passoMPS, &numMPS, &minNumMPS, &maxNumMPS);
 
     
