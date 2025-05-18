@@ -246,7 +246,7 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
 int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiarCusto){
   double diffCusto;
   int minMPS = 1;
-  int maxMPS = tam;
+  int maxMPS = numQuebras;
   int numMPS = 0;
   int passoMPS = _passoMPS(maxMPS, minMPS);
   int limQuebras;
@@ -256,6 +256,7 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
   do{
     cout << "iter " << i << endl;
     numMPS = 0;
+
 
     for(int limQuebras = minMPS; limQuebras <= maxMPS; limQuebras += passoMPS){
       srand48(seed);
