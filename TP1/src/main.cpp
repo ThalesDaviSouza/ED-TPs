@@ -20,8 +20,8 @@ int main(int argc, char** argv){
   int* vetorOrig;
   int* vetorCopia;
   int seed, num;
-  float a, b , c;
-  float limiarCusto;
+  double a, b , c;
+  double limiarCusto;
   int tamArray;
   int numQuebras;
   
@@ -43,7 +43,6 @@ int main(int argc, char** argv){
     cin >> vetorOrig[i];
   }
   
-  srand48(seed);
   numQuebras = getNumBreaks(vetorOrig, tamArray);
 
   OrdenadorUniversal ordenador = OrdenadorUniversal(a, b, c, numQuebras, seed, vetorOrig);
@@ -51,9 +50,7 @@ int main(int argc, char** argv){
   cout << "size " << tamArray;
   cout << " seed " << seed;
   cout << " breaks " << numQuebras << endl << endl; 
-  
-  // Sort::QuickSort(vetorCopia, tamArray);  
-  
+   
   ordenador.determinarLimiarParticao(vetorCopia, tamArray, limiarCusto);
   ordenador.determinarLimiarQuebras(vetorCopia, tamArray, limiarCusto);
 

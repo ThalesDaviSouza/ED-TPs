@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iomanip>
 #include "ordenador.hpp"
 
 OrdenadorUniversal::OrdenadorUniversal() { }
@@ -82,14 +83,14 @@ void OrdenadorUniversal::registraEstatisticasLimQuebras(int breaks, int numMPS, 
   }
 }
 
-float OrdenadorUniversal::calcularCusto(int cmp, int move, int calls){
+double OrdenadorUniversal::calcularCusto(int cmp, int move, int calls){
   return fabs((a * cmp) + (b * move) + (c * calls));
 }
 
 int OrdenadorUniversal::menorCustoMinParticao(int numMPS){
   int cmp, moves, calls;
   int menorCusto, idMenorCusto;
-  float custo;
+  double custo;
 
   for(int i = 0; i < numMPS; i++){
     cmp = Registros[i].cmp;
@@ -113,7 +114,7 @@ int OrdenadorUniversal::menorCustoMinParticao(int numMPS){
 int OrdenadorUniversal::menorCustoLimiarQuebras(int numMPS, SortingAlgorithm *sort){
   int cmp, moves, calls;
   int menorCusto, idMenorCusto;
-  float custoQs, custoIn;
+  double custoQs, custoIn;
 
   for(int i = 0; i < numMPS; i++){
     
@@ -140,7 +141,7 @@ int getMPS(int minMPS, int passoMPS, int num){
   return minMPS + (passoMPS * num);
 }
 
-void OrdenadorUniversal::calculaNovaFaixa(float limParticao, int* minMPS, int* maxMPS, int* passoMPS, int* numMPS, int *minNumMPS, int *maxNumMPS){
+void OrdenadorUniversal::calculaNovaFaixa(double limParticao, int* minMPS, int* maxMPS, int* passoMPS, int* numMPS, int *minNumMPS, int *maxNumMPS){
   int newMin, newMax;
   if(limParticao == 0){
     newMin = 0;
@@ -166,7 +167,7 @@ void OrdenadorUniversal::calculaNovaFaixa(float limParticao, int* minMPS, int* m
 
 void OrdenadorUniversal::imprimeEstatisticasMinParticao(Registro r){
   cout << "mps " << r.mps << " ";
-  cout << "cost " << r.cost << " ";
+  cout << "cost " << fixed << setprecision(9) << r.cost << " ";
   cout << "cmp " << r.cmp << " ";
   cout << "move " << r.moves << " ";
   cout << "calls " << r.calls << endl;
@@ -206,32 +207,36 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
   int limParticao;
   int i = 0;
 
-  Sort::SetTamParticao(50);
-
   do{
-    cout << "inter " << i << endl;
+    cout << "iter " << i << endl;
     numMPS = 0;
 
     for(int tamMin = minMPS; tamMin <= maxMPS; tamMin += passoMPS){
       copiaVetor(vetor, tam);
       Sort::SetTamParticao(tamMin);
+
       ordenadorUniversal(vetor, tam, tamMin, 0);
+      
       registraEstatisticasMinParticao(tamMin, numMPS);
       imprimeEstatisticasMinParticao(Registros[numMPS]);
+      
       numMPS++;
     }
+
     limParticao = menorCustoMinParticao(numMPS);
     int minNumMPS;
     int maxNumMPS;
     calculaNovaFaixa(limParticao, &minMPS, &maxMPS, &passoMPS, &numMPS, &minNumMPS, &maxNumMPS);
 
-
-    diffCusto = fabs(Registros[minNumMPS].cost - Registros[maxNumMPS].cost);
+    diffCusto = Registros[minNumMPS].cost - Registros[maxNumMPS].cost;
+    if(diffCusto < 0){
+      diffCusto *= -1;
+    }
     
-
-    cout << "numps " << numMPS;
+    cout << "nummps " << numMPS;
     cout << " limParticao " << Registros[limParticao].mps;
-    cout << " mpsdiff " << diffCusto << endl << endl;
+    cout << " mpsdiff " << setprecision(6) << diffCusto << endl << endl;
+    
     i++;
   }while (diffCusto > limiarCusto && numMPS >= 5);
 
@@ -239,7 +244,7 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
 }
 
 int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiarCusto){
-  float diffCusto;
+  double diffCusto;
   int minMPS = 2;
   int maxMPS = tam;
   int numMPS = 0;
@@ -251,7 +256,7 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
   Sort::SetTamParticao(50);
 
   do{
-    cout << "inter " << i << endl;
+    cout << "iter " << i << endl;
     numMPS = 0;
 
     for(int limQuebras = minMPS; limQuebras <= maxMPS; limQuebras += passoMPS){
