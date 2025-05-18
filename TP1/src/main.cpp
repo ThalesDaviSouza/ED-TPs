@@ -53,6 +53,7 @@ int main(int argc, char** argv){
    
   int minParticao = ordenador.determinarLimiarParticao(vetorCopia, tamArray, limiarCusto);
   Sort::SetTamParticao(minParticao);
+  Sort::QuickSort(vetorCopia, tamArray);
   ordenador.determinarLimiarQuebras(vetorCopia, tamArray, limiarCusto);
 
   return 0;

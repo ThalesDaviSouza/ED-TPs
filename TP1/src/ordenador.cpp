@@ -259,13 +259,13 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
 
     for(int limQuebras = minMPS; limQuebras <= maxMPS; limQuebras += passoMPS){
       srand48(seed);
-      shuffleVector(vetor, tam, limQuebras);
+      shuffleVector(vetor, tam - 1, limQuebras);
       Sort::QuickSort(vetor, tam);
       registraEstatisticasLimQuebras(limQuebras, numMPS, quick);
       imprimeEstatisticasLimiarQuebras(numMPS, quick);
       
       srand48(seed);
-      shuffleVector(vetor, tam, limQuebras);
+      shuffleVector(vetor, tam - 1, limQuebras);
       Sort::InsertionSort(vetor, tam);
       registraEstatisticasLimQuebras(limQuebras, numMPS, insertion);
       imprimeEstatisticasLimiarQuebras(numMPS, insertion);
