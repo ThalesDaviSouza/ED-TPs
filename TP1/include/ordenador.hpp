@@ -1,5 +1,8 @@
 #ifndef ORDENADOR_H
 #define ORDENADOR_H
+
+#include <iostream>
+
 using namespace std;
 
 #include "sort.hpp"

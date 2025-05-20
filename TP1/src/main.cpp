@@ -56,5 +56,8 @@ int main(int argc, char** argv){
   Sort::QuickSort(vetorCopia, tamArray);
   ordenador.determinarLimiarQuebras(vetorCopia, tamArray, limiarCusto);
 
+  delete vetorCopia;
+  delete vetorOrig;
+
   return 0;
 }

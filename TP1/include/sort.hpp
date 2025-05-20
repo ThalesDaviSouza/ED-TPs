@@ -1,7 +1,5 @@
 #ifndef SORT_H
 #define SORT_H
-using namespace std;
-#include <iostream>
 
 enum SortingAlgorithm{
   quick,
