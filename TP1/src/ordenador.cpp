@@ -143,7 +143,7 @@ int getMPS(int minMPS, int passoMPS, int num){
 }
 
 void OrdenadorUniversal::calculaNovaFaixa(double limParticao, int* minMPS, int* maxMPS, int* passoMPS, int* numMPS, int *minNumMPS, int *maxNumMPS){
-  int newMin, newMax;
+  int newMin, newMax, minAux;
   if(limParticao == 0){
     newMin = 0;
     newMax = 2;
@@ -160,9 +160,13 @@ void OrdenadorUniversal::calculaNovaFaixa(double limParticao, int* minMPS, int* 
   *minNumMPS = newMin;
   *maxNumMPS = newMax;
 
-  *minMPS = getMPS(*minMPS, *passoMPS, newMin);
-  *maxMPS = getMPS(*minMPS, *passoMPS, newMax);
+  minAux = *minMPS;
+
+  *minMPS = getMPS(minAux, *passoMPS, newMin);
+  *maxMPS = getMPS(minAux, *passoMPS, newMax);
+
   *passoMPS = (int)((*maxMPS-*minMPS)/5);
+  
   if(*passoMPS == 0) (*passoMPS)++;
 }
 
@@ -246,22 +250,25 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
 
 
 int OrdenadorUniversal::determinarLimiarQuebras(int* vetor, int tam, int limiarCusto){
-  double diffCusto;
+  float diffCusto = limiarCusto + 1;
   int minMPS = 1;
-  int maxMPS = tam-1;
-  int numMPS = 0;
-  int passoMPS = _passoLQ(maxMPS, minMPS);
+  // int maxMPS = tam-1;
+  int maxMPS = tam/2;
+  int numMPS = 20;
+  // int passoMPS = _passoLQ(maxMPS, minMPS);
+  int passoMPS = _passoMPS(maxMPS, minMPS);
   int limQuebras;
   int i = 0;
   SortingAlgorithm sort;
   float lastInCost;
 
-  do{
+  while ((diffCusto > limiarCusto) && (numMPS >= 5)){
     
     cout << "iter " << i << endl;
     numMPS = 0;
 
     for(limQuebras = minMPS; limQuebras <= maxMPS; limQuebras += passoMPS){
+      
       srand48(seed);
       shuffleVector(vetor, tam, limQuebras);
       Sort::QuickSort(vetor, tam);
@@ -274,11 +281,6 @@ int OrdenadorUniversal::determinarLimiarQuebras(int* vetor, int tam, int limiarC
       registraEstatisticasLimQuebras(limQuebras, numMPS, insertion);
       imprimeEstatisticasLimiarQuebras(numMPS, insertion);
 
-      if(numMPS > 5 && InRegistros[numMPS].cost > InRegistros[numMPS-1].cost){
-        numMPS++;
-        break;
-      }
-
       numMPS++;
     }
 
@@ -289,16 +291,16 @@ int OrdenadorUniversal::determinarLimiarQuebras(int* vetor, int tam, int limiarC
 
     calculaNovaFaixa(limQuebras, &minMPS, &maxMPS, &passoMPS, &numMPS, &minNumMPS, &maxNumMPS);
 
-    diffCusto = fabs(InRegistros[minNumMPS].cost - InRegistros[maxNumMPS].cost);
+    diffCusto = (float)fabs(InRegistros[minNumMPS].cost - InRegistros[maxNumMPS].cost);
     
     cout << "numlq " << numMPS;
     
     cout << " limQuebras " << QsRegistros[limQuebras].mps;
-
-    cout << " lqdiff " << fixed << setprecision(6) << diffCusto << endl << endl;
-    i++;
     
-  }while (diffCusto > limiarCusto && numMPS >= 5);
+    cout << " lqdiff " << fixed << setprecision(6) << diffCusto << endl << endl;
+    
+    i++;
+  }
   
   limQuebras = InRegistros[limQuebras].mps;
 
