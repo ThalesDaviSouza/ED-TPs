@@ -95,8 +95,8 @@ double OrdenadorUniversal::calcularCusto(int cmp, int move, int calls){
 
 int OrdenadorUniversal::menorCustoMinParticao(int numMPS){
   int cmp, moves, calls;
-  int menorCusto, idMenorCusto;
-  double custo;
+  int idMenorCusto;
+  double custo, menorCusto;
 
   for(int i = 0; i < numMPS; i++){
     cmp = Registros[i].cmp;
@@ -119,25 +119,20 @@ int OrdenadorUniversal::menorCustoMinParticao(int numMPS){
 
 int OrdenadorUniversal::menorCustoLimiarQuebras(int numMPS, SortingAlgorithm *sort){
   int cmp, moves, calls;
-  int menorCusto, idMenorCusto;
-  double custoQs, custoIn;
+  int idMenorCusto;
+  double custoQs, custoIn, custoAbs, menorCusto;
 
   for(int i = 0; i < numMPS; i++){
     
     custoQs = QsRegistros[i].cost;
     custoIn = InRegistros[i].cost;
-   
-    if(i == 0 || menorCusto > custoQs){
-      menorCusto = custoQs;
-      *sort = quick;
+    custoAbs = fabs(custoQs - custoIn);
+    
+    if(i == 0 || menorCusto > custoAbs){
+      menorCusto = custoAbs; 
       idMenorCusto = i;
     }
     
-    if(menorCusto > custoIn){
-      menorCusto = custoIn;
-      *sort = insertion;
-      idMenorCusto = i;
-    }
   }
 
   return idMenorCusto;
@@ -261,8 +256,6 @@ int OrdenadorUniversal::determinarLimiarQuebras(int* vetor, int tam, int limiarC
   SortingAlgorithm sort;
   float lastInCost;
 
-  // maxMPS = passoMPS * 5 + minMPS;
-
   do{
     
     cout << "iter " << i << endl;
@@ -270,13 +263,13 @@ int OrdenadorUniversal::determinarLimiarQuebras(int* vetor, int tam, int limiarC
 
     for(limQuebras = minMPS; limQuebras <= maxMPS; limQuebras += passoMPS){
       srand48(seed);
-      shuffleVector(vetor, tam - 1, limQuebras);
+      shuffleVector(vetor, tam, limQuebras);
       Sort::QuickSort(vetor, tam);
       registraEstatisticasLimQuebras(limQuebras, numMPS, quick);
       imprimeEstatisticasLimiarQuebras(numMPS, quick);
       
       srand48(seed);
-      shuffleVector(vetor, tam - 1, limQuebras);
+      shuffleVector(vetor, tam, limQuebras);
       Sort::InsertionSort(vetor, tam);
       registraEstatisticasLimQuebras(limQuebras, numMPS, insertion);
       imprimeEstatisticasLimiarQuebras(numMPS, insertion);
@@ -289,8 +282,6 @@ int OrdenadorUniversal::determinarLimiarQuebras(int* vetor, int tam, int limiarC
       numMPS++;
     }
 
-    // TODO: O critério de escolha é o seguinte: pegar a menor diferença absoluta entre os valores do qs e do insertion
-
     limQuebras = menorCustoLimiarQuebras(numMPS, &sort);
     
     int minNumMPS;
@@ -298,19 +289,11 @@ int OrdenadorUniversal::determinarLimiarQuebras(int* vetor, int tam, int limiarC
 
     calculaNovaFaixa(limQuebras, &minMPS, &maxMPS, &passoMPS, &numMPS, &minNumMPS, &maxNumMPS);
 
-    if(sort == quick){
-      diffCusto = fabs(QsRegistros[minNumMPS].cost - QsRegistros[maxNumMPS].cost);
-    }
-    else if(sort == insertion){
-      diffCusto = fabs(InRegistros[minNumMPS].cost - InRegistros[maxNumMPS].cost);
-    }
-
+    diffCusto = fabs(InRegistros[minNumMPS].cost - InRegistros[maxNumMPS].cost);
+    
     cout << "numlq " << numMPS;
     
-    if(sort == quick)
-      cout << " limQuebras " << QsRegistros[limQuebras].mps;
-    else if(sort == insertion)
-      cout << " limQuebras " << InRegistros[limQuebras].mps;
+    cout << " limQuebras " << QsRegistros[limQuebras].mps;
 
     cout << " lqdiff " << fixed << setprecision(6) << diffCusto << endl << endl;
     i++;
