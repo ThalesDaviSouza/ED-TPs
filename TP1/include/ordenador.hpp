@@ -14,9 +14,9 @@ class OrdenadorUniversal{
     int numQuebras;
     int seed;
     int *vetorOrig;
-    Registro Registros[6];
-    Registro InRegistros[6];
-    Registro QsRegistros[6];
+    Registro Registros[10];
+    Registro InRegistros[10];
+    Registro QsRegistros[10];
 
     
     int _passoMPS(int max, int min);
@@ -37,7 +37,7 @@ class OrdenadorUniversal{
     : a(a), b(b), c(c), numQuebras(numQuebras), seed(seed), vetorOrig(vetorOrig) { }
     OrdenadorUniversal();
     int determinarLimiarParticao(int vetor[], int tam, int limiarCusto);
-    int determinarLimiarQuebras(int vetor[], int tam, int limiarCusto);
+    int determinarLimiarQuebras(int* vetor, int tam, int limiarCusto);
     void shuffleVector(int vetor[], int size, int numShuffle);
 };
 

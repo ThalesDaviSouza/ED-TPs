@@ -74,9 +74,9 @@ void OrdenadorUniversal::registraEstatisticasLimQuebras(int breaks, int numMPS, 
   switch (algo)
   {
     case quick:
-      registro.calls -= Sort::InQtdCalls;
-      registro.moves -= Sort::InQtdMoves;
-      registro.cmp -= Sort::InQtdCmp;
+      registro.calls;
+      registro.moves;
+      registro.cmp;
       QsRegistros[numMPS] = registro;
       break;
 
@@ -246,21 +246,11 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
     i++;
   }while (diffCusto > limiarCusto && numMPS >= 5);
 
-  return limParticao;
-}
-
-int coutNumBreaks(int* vetor, int tamanho) {
-  int cont = 0;
-  for (int i = 0; i < tamanho - 1; ++i) {
-    if (vetor[i] > vetor[i + 1]) {
-      ++cont;
-    }
-  }
-  return cont;
+  return Registros[limParticao].mps;
 }
 
 
-int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiarCusto){
+int OrdenadorUniversal::determinarLimiarQuebras(int* vetor, int tam, int limiarCusto){
   double diffCusto;
   int minMPS = 1;
   int maxMPS = tam-1;
@@ -269,8 +259,12 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
   int limQuebras;
   int i = 0;
   SortingAlgorithm sort;
+  float lastInCost;
+
+  // maxMPS = passoMPS * 5 + minMPS;
 
   do{
+    
     cout << "iter " << i << endl;
     numMPS = 0;
 
@@ -287,10 +281,18 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
       registraEstatisticasLimQuebras(limQuebras, numMPS, insertion);
       imprimeEstatisticasLimiarQuebras(numMPS, insertion);
 
+      if(numMPS > 5 && InRegistros[numMPS].cost > InRegistros[numMPS-1].cost){
+        numMPS++;
+        break;
+      }
+
       numMPS++;
     }
 
+    // TODO: O critério de escolha é o seguinte: pegar a menor diferença absoluta entre os valores do qs e do insertion
+
     limQuebras = menorCustoLimiarQuebras(numMPS, &sort);
+    
     int minNumMPS;
     int maxNumMPS;
 
@@ -310,10 +312,12 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
     else if(sort == insertion)
       cout << " limQuebras " << InRegistros[limQuebras].mps;
 
-    cout << " lqdiff " << diffCusto << endl << endl;
+    cout << " lqdiff " << fixed << setprecision(6) << diffCusto << endl << endl;
     i++;
-
+    
   }while (diffCusto > limiarCusto && numMPS >= 5);
+  
+  limQuebras = InRegistros[limQuebras].mps;
 
   return limQuebras;
 }
