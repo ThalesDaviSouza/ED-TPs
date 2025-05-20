@@ -9,9 +9,9 @@ using namespace std;
 int getNumBreaks(int* vetor, int tamanho) {
   int cont = 0;
   for (int i = 0; i < tamanho - 1; ++i) {
-      if (vetor[i] > vetor[i + 1]) {
-          ++cont;
-      }
+    if (vetor[i] > vetor[i + 1]) {
+      ++cont;
+    }
   }
   return cont;
 }
@@ -54,7 +54,7 @@ int main(int argc, char** argv){
   int minParticao = ordenador.determinarLimiarParticao(vetorCopia, tamArray, limiarCusto);
   Sort::SetTamParticao(minParticao);
   Sort::QuickSort(vetorCopia, tamArray);
-  ordenador.determinarLimiarQuebras(vetorCopia, tamArray, limiarCusto);
+  int limiarQuebras = ordenador.determinarLimiarQuebras(vetorCopia, tamArray, limiarCusto);
 
   delete vetorCopia;
   delete vetorOrig;

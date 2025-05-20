@@ -28,6 +28,9 @@ int OrdenadorUniversal::_passoMPS(int max, int min){
   return (int)(max - min)/5;
 }
 
+int OrdenadorUniversal::_passoLQ(int max, int min){
+  return (int)(max - min)/10;
+}
 
 void OrdenadorUniversal::ordenadorUniversal(int vetor[], int tam, int minTamParticao, int limiarQuebras){
   if(numQuebras < limiarQuebras){
@@ -71,6 +74,9 @@ void OrdenadorUniversal::registraEstatisticasLimQuebras(int breaks, int numMPS, 
   switch (algo)
   {
     case quick:
+      registro.calls -= Sort::InQtdCalls;
+      registro.moves -= Sort::InQtdMoves;
+      registro.cmp -= Sort::InQtdCmp;
       QsRegistros[numMPS] = registro;
       break;
 
@@ -186,7 +192,7 @@ void OrdenadorUniversal::imprimeEstatisticasLimiarQuebras(int numMPS, SortingAlg
   } 
 
   cout << "lq " << r.mps << " ";
-  cout << "cost " << r.cost << " ";
+  cout << "cost " << fixed << setprecision(9) << r.cost << " ";
   cout << "cmp " << r.cmp << " ";
   cout << "move " << r.moves << " ";
   cout << "calls " << r.calls << endl;
@@ -243,12 +249,23 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
   return limParticao;
 }
 
+int coutNumBreaks(int* vetor, int tamanho) {
+  int cont = 0;
+  for (int i = 0; i < tamanho - 1; ++i) {
+    if (vetor[i] > vetor[i + 1]) {
+      ++cont;
+    }
+  }
+  return cont;
+}
+
+
 int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiarCusto){
   double diffCusto;
   int minMPS = 1;
-  int maxMPS = numQuebras;
+  int maxMPS = tam-1;
   int numMPS = 0;
-  int passoMPS = _passoMPS(maxMPS, minMPS);
+  int passoMPS = _passoLQ(maxMPS, minMPS);
   int limQuebras;
   int i = 0;
   SortingAlgorithm sort;
@@ -257,8 +274,7 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
     cout << "iter " << i << endl;
     numMPS = 0;
 
-
-    for(int limQuebras = minMPS; limQuebras <= maxMPS; limQuebras += passoMPS){
+    for(limQuebras = minMPS; limQuebras <= maxMPS; limQuebras += passoMPS){
       srand48(seed);
       shuffleVector(vetor, tam - 1, limQuebras);
       Sort::QuickSort(vetor, tam);
@@ -280,7 +296,6 @@ int OrdenadorUniversal::determinarLimiarQuebras(int vetor[], int tam, int limiar
 
     calculaNovaFaixa(limQuebras, &minMPS, &maxMPS, &passoMPS, &numMPS, &minNumMPS, &maxNumMPS);
 
-    
     if(sort == quick){
       diffCusto = fabs(QsRegistros[minNumMPS].cost - QsRegistros[maxNumMPS].cost);
     }

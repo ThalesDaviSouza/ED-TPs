@@ -20,6 +20,7 @@ class OrdenadorUniversal{
 
     
     int _passoMPS(int max, int min);
+    int _passoLQ(int max, int min);
     int menorCustoMinParticao(int numMPS);
     int menorCustoLimiarQuebras(int numMPS, SortingAlgorithm *sort);
     double calcularCusto(int cmp, int move, int calls);

@@ -21,6 +21,10 @@ class Sort{
     static int qtdCmp;
     static int qtdMoves;
     static int qtdCalls;
+    
+    static int InQtdCmp;
+    static int InQtdMoves;
+    static int InQtdCalls;
 
     static int QUICK_SORT_SIZE;
 

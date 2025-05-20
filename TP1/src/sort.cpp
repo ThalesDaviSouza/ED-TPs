@@ -6,6 +6,10 @@ int Sort::qtdCmp = 0;
 int Sort::qtdMoves = 0;
 int Sort::qtdCalls = 0;
 
+int Sort::InQtdCmp = 0;
+int Sort::InQtdMoves = 0;
+int Sort::InQtdCalls = 0;
+
 void Sort::swap(int vetor[], int posX, int posY){
   int aux = vetor[posX];
   
@@ -22,18 +26,21 @@ void Sort::incCmp(){
 }
 void Sort::resetCmp(){
   qtdCmp = 0;
+  InQtdCmp = 0;
 }
 void Sort::incMoves(){
   qtdMoves++;
 }
 void Sort::resetMoves(){
   qtdMoves = 0;
+  InQtdMoves = 0;
 }
 void Sort::incCalls(){
   qtdCalls++;
 }
 void Sort::resetCalls(){
   qtdCalls = 0;
+  InQtdCalls = 0;
 }
 
 void Sort::SetTamParticao(int tam){
@@ -42,23 +49,29 @@ void Sort::SetTamParticao(int tam){
 
 void Sort::_insertionSort(int V[], int l, int r){
   incCalls();
+  InQtdCalls++;
 
   int j;
 
   for(int i = l+1; i <= r; i++){
     incMoves();
+    InQtdMoves++;
+
     int aux = V[i];
     j = i - 1;
 
     incCmp();
     while(j >= 0 && V[j] > aux){
       incCmp();
+      InQtdCmp++;
       incMoves();
+      InQtdMoves++;
       V[j + 1] = V[j];  
       j--;
     }
 
     incMoves();
+    InQtdMoves++;
     V[j+1] = aux;
   }
 }
