@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// Conta o número de quebras no vetor
 int getNumBreaks(int* vetor, int tamanho) {
   int cont = 0;
   for (int i = 0; i < tamanho - 1; ++i) {
@@ -56,8 +57,10 @@ int main(int argc, char** argv){
   Sort::QuickSort(vetorCopia, tamArray);
   int limiarQuebras = ordenador.determinarLimiarQuebras(vetorCopia, tamArray, limiarCusto);
 
-  delete vetorCopia;
-  delete vetorOrig;
+  delete[] vetorCopia;
+  delete[] vetorOrig;
+
+  fclose(stdin);
 
   return 0;
 }

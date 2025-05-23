@@ -12,7 +12,9 @@ class Sort{
     static void quickSort3Ins(int V[], int l, int r);
     static void _insertionSort(int V[], int l, int r);
     static void partition3(int V[], int l, int r, int *i, int *j);
+    // Mediana de 3
     static int median(int a, int b, int c);
+
   public:
     static void InsertionSort(int vetor[], int tam);
     static void QuickSort(int vetor[], int tam);
@@ -35,6 +37,8 @@ class Sort{
     static void incCalls();
     static void resetCalls();
     
+    // Define o tamanho mínimo da partição em que o quicksort
+    // começa a chamar o insertion sort
     static void SetTamParticao(int tam);
   };
   

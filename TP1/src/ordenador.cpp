@@ -28,10 +28,6 @@ int OrdenadorUniversal::_passoMPS(int max, int min){
   return (int)(max - min)/5;
 }
 
-int OrdenadorUniversal::_passoLQ(int max, int min){
-  return (int)(max - min)/10;
-}
-
 void OrdenadorUniversal::ordenadorUniversal(int vetor[], int tam, int minTamParticao, int limiarQuebras){
   if(numQuebras < limiarQuebras){
     Sort::InsertionSort(vetor, tam);
@@ -117,6 +113,9 @@ int OrdenadorUniversal::menorCustoMinParticao(int numMPS){
   return idMenorCusto;
 }
 
+// O menor custo é definido pela diferença absoluta entre
+// o custo de quicksort e do insertion sort para um determinado
+// limiar de quebras 
 int OrdenadorUniversal::menorCustoLimiarQuebras(int numMPS, SortingAlgorithm *sort){
   int cmp, moves, calls;
   int idMenorCusto;
@@ -142,6 +141,9 @@ int getMPS(int minMPS, int passoMPS, int num){
   return minMPS + (passoMPS * num);
 }
 
+/**
+ * Para cada faixa é calculado a posição do min e do max
+ */
 void OrdenadorUniversal::calculaNovaFaixa(double limParticao, int* minMPS, int* maxMPS, int* passoMPS, int* numMPS, int *minNumMPS, int *maxNumMPS){
   int newMin, newMax, minAux;
   if(limParticao == 0){
@@ -252,10 +254,8 @@ int OrdenadorUniversal::determinarLimiarParticao(int vetor[], int tam, int limia
 int OrdenadorUniversal::determinarLimiarQuebras(int* vetor, int tam, int limiarCusto){
   float diffCusto = limiarCusto + 1;
   int minMPS = 1;
-  // int maxMPS = tam-1;
   int maxMPS = tam/2;
   int numMPS = 20;
-  // int passoMPS = _passoLQ(maxMPS, minMPS);
   int passoMPS = _passoMPS(maxMPS, minMPS);
   int limQuebras;
   int i = 0;
