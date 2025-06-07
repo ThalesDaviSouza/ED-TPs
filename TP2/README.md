@@ -45,7 +45,7 @@ Deve ser feita uma modelagem para simulação de eventos discretos baseado no mo
   - Quantidade de Seções
   - Seções (lista de pilhas)
     - Pacotes (dentro de cada pilha) <br/>
-  - *Obs.: Implementar função de *armazenar pacotes na pilha certa* e *recuperar pacote*.
+  - *Obs.: Implementar função de **armazenar pacotes na pilha certa** e **recuperar pacote**.
 
 - ### Transporte
   - Pactoes sendo transportados
