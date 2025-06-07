@@ -57,7 +57,7 @@ Deve ser feita uma modelagem para simulação de eventos discretos baseado no mo
       - TipoEvento
         - PostagemPacote
         - ChegadaPacote
-        - ArmazenamentoPacote (Inserção instantânea)
+        - ArmazenamentoPacote (Inserção instantânea, custo 1)
         - AlocacaoPacote
         - EntregaPacote
   - Váriaveis de controle:
@@ -71,7 +71,7 @@ Cada linha contém:
 - Data hora da postagem (int, número de horas a partir de uma data de referêrencia)
 - Nome Remetente
 - Nome Destinatário
-- Tipo??
+- Tipo
 - Armazém Origem
 - Armazém Destino
 
