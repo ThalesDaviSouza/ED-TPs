@@ -23,6 +23,7 @@ public:
   ~Armazem();
 
   void ArmazenarPacote(Pacote& pacote);
+  Pacote* RecuperarPacote(int idPacote, int idArmazemDestino);
 };
 
 #endif

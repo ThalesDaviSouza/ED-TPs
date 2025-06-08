@@ -3,7 +3,7 @@ CFLAGS = -I include
 all: output
 
 output: obj/main.o obj/pacote.o obj/armazem.o
-	g++ -o bin/tp2 obj/main.o obj/pacote.o obj/armazem.o
+	g++ -o bin/tp2.exe obj/main.o obj/pacote.o obj/armazem.o
 
 obj/main.o: ./src/main.cpp ./include/pacote.hpp | obj
 	g++ $(CFLAGS) -c ./src/main.cpp -o obj/main.o

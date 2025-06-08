@@ -60,6 +60,9 @@ Deve ser feita uma modelagem para simulação de eventos discretos baseado no mo
         - ArmazenamentoPacote (Inserção instantânea, custo 1)
         - AlocacaoPacote
         - EntregaPacote
+      - idPacote (se for -1 é nulo)
+      - idArmazemDestino (se for -1 é nulo)
+      - idArmazemOrigem (se for -1 é nulo)
   - Váriaveis de controle:
     - Data Hora referência
     - Hora próximo evento

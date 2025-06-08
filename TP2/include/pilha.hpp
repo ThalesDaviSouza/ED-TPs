@@ -10,7 +10,7 @@ public:
 
   static Pilha<T>* createPilha();
   Pilha<T>* add(T& value);
-  Pilha<T>* remove();
+  Pilha<T>* remove(bool deletar = true);
   void limpar();
 
 private:
@@ -46,16 +46,25 @@ Pilha<T>* Pilha<T>::add(T& value){
 
 /// @return Retorna o novo topo 
 template<typename T>
-Pilha<T>* Pilha<T>::remove(){
+Pilha<T>* Pilha<T>::remove(bool deletar){
   Pilha<T>* top = this;
   
   if(top == nullptr){
     return nullptr;
   }
 
-  delete top;
+  if(deletar){
+    delete top;
+  }
 
-  return top->next;
+  if(top->next != nullptr){
+    top->next->prev = nullptr;
+  }
+  else if(top->next == nullptr){
+    top->value = nullptr;
+    return top;
+  }
+  return (top->next);
 }
 
 template<typename T>
