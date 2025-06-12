@@ -63,6 +63,10 @@ Deve ser feita uma modelagem para simulação de eventos discretos baseado no mo
       - idPacote (se for -1 é nulo)
       - idArmazemDestino (se for -1 é nulo)
       - idArmazemOrigem (se for -1 é nulo)
+      - ChaveEvento (Chave para usar na fila de prioridade):
+        - Digitos do primeiro (1) até o sexto (6): se referem ao tempo do evento
+        - Digitos do 7º até o 12º: se referem ao id do evento (do pacote ou do transporte)
+        - 13º digito: se refere se é pacote (1) ou transporte (2)
   - Váriaveis de controle:
     - Data Hora referência
     - Hora próximo evento
@@ -78,7 +82,29 @@ Cada linha contém:
 - Armazém Origem
 - Armazém Destino
 
+Exemplo de entrada:
+- 2 (capacida do transporte)
+- 20 (latência do transporte em outras palavras, tempo para realizar o transporte)
+- 100 (intervalo entre transportes)
+- 1 (custo de remocao de 1 pacote)
+- 4 (numero de armazens)
+- // (Matriz de adjacência dos armazéns)
+- 0 0 1 0 (Armazém 0 é adjacente ao 2) 
+- 0 0 1 0 (Armazém 1 é adjacente ao 2)
+- 1 1 0 1 (Armazém 2 é adjacente ao 0, 1 e 3)
+- 0 0 1 0 (Armazém 3 é adjacente ao 2)
+- 8 (numero de pacotes)
+- 9 pac 0 org 1 dst 0 ("Tempo chegada do pacote ao armazém inicial" pac "id do pacote" org "armazém inicial" dst "armazém destino")
+- 45 pac 1 org 1 dst 2
+- 93 pac 2 org 0 dst 3
+- 1 pac 3 org 0 dst 3
+- 92 pac 4 org 3 dst 2
+- 18 pac 5 org 2 dst 3
+- 7 pac 6 org 3 dst 2
+- 78 pac 7 org 0 dst 3
+
 # Saída
+##### Rever, após mensagem do professor na verdade parece que a saída será um log de cada movimentação do pacote.
 Para cada pacote:
 - Tempo esperado de estadia
 - Tempo armazenado
