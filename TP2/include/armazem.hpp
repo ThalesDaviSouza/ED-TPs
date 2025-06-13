@@ -19,6 +19,7 @@ public:
   int numSecoes;
   List<Secao>* secoes;
 
+  Armazem() : numSecoes(-1), secoes(nullptr) { }
   Armazem(int numSecoes, int* armazensDestino);
   ~Armazem();
 
