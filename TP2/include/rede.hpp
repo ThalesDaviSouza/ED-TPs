@@ -5,11 +5,12 @@
 
 class Rede{
 public:
+  int capacidadeTransporte;
   int numArmazens;  
   Armazem* armazens;
   int** conexoes;
 
-  Rede(int numArmazens);
+  Rede(int numArmazens, int capacidadeTransporte);
   ~Rede();
 
 };

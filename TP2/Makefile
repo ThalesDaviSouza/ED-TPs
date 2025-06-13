@@ -5,7 +5,7 @@ all: output
 output: obj/main.o obj/pacote.o obj/armazem.o obj/rede.o
 	g++ -o bin/tp2.exe obj/main.o obj/pacote.o obj/armazem.o obj/rede.o
 
-obj/main.o: ./src/main.cpp ./include/pacote.hpp | obj
+obj/main.o: ./src/main.cpp ./include/utils.hpp ./include/list.hpp ./include/heap.hpp ./include/pilha.hpp | obj
 	g++ $(CFLAGS) -c ./src/main.cpp -o obj/main.o
 
 obj/pacote.o: ./src/pacote.cpp ./include/pacote.hpp | obj

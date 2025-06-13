@@ -14,7 +14,9 @@ Armazem::Armazem(int numSecoes, int* armazensDestino){
 }
 
 Armazem::~Armazem(){
-  this->secoes->limpar();
+  if(secoes != nullptr){
+    this->secoes->limpar();
+  }
 }
 
 void Armazem::ArmazenarPacote(Pacote& pacote){
