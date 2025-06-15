@@ -13,6 +13,8 @@ public:
   Rede(int numArmazens, int capacidadeTransporte);
   ~Rede();
 
+  void addSecao(int idArmazem, int idArmazemDestino);
+
 };
 
 #endif

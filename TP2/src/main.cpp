@@ -39,15 +39,19 @@ int main(int argc, char* argv[]){
   arquivo >> custoRemocao;
   arquivo >> numeroArmazens;
   
-  
-  // TODO: Adicionar armázens lidos na rede
   Rede rede(numeroArmazens, capacidadeTransporte);
   
   for(int i = 0; i < numeroArmazens; i++){
     for(int j = 0; j < numeroArmazens; j++){
       arquivo >> rede.conexoes[i][j];
+
+      if(rede.conexoes[i][j] == 1){
+        rede.addSecao(i, j);  
+      }
     }
   }
+
+  _log(rede);
     
   int numPacotes;
 

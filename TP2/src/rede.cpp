@@ -21,3 +21,7 @@ Rede::~Rede(){
   
   delete[] this->conexoes;
 }
+
+void Rede::addSecao(int idArmazem, int idArmazemDestino){
+  armazens[idArmazem].addSecao(idArmazemDestino);
+}

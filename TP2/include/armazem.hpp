@@ -19,10 +19,11 @@ public:
   int numSecoes;
   List<Secao>* secoes;
 
-  Armazem() : numSecoes(-1), secoes(nullptr) { }
+  Armazem() : numSecoes(0), secoes(nullptr) { }
   Armazem(int numSecoes, int* armazensDestino);
   ~Armazem();
 
+  void addSecao(int idArmazemDestino);
   void ArmazenarPacote(Pacote& pacote);
   Pacote* RecuperarPacote(int idPacote, int idArmazemDestino);
 };

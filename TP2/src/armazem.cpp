@@ -78,3 +78,13 @@ Pacote* Armazem::RecuperarPacote(int idPacote, int idArmazemDestino){
   
   return nullptr;
 }
+
+void Armazem::addSecao(int idArmazemDestino) {
+  if(secoes == nullptr){
+    secoes = List<Secao>::createList();    
+  }
+
+  Secao* aux = new Secao(idArmazemDestino);
+  this->numSecoes++;
+  secoes->add(*aux);  
+}
