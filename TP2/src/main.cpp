@@ -9,6 +9,7 @@
 #include "heap.hpp"
 #include "rede.hpp"
 #include "utils.hpp"
+#include "escalonador.hpp"
 
 using namespace std;
 
@@ -38,27 +39,22 @@ int main(int argc, char* argv[]){
   arquivo >> custoRemocao;
   arquivo >> numeroArmazens;
   
-  _log(capacidadeTransporte);
-  _log(custoTransporte);
-  _log(intervaloTransporte);
-  _log(custoRemocao);
-  _log(numeroArmazens);
   
-  Rede r(numeroArmazens, capacidadeTransporte);
+  // TODO: Adicionar armázens lidos na rede
+  Rede rede(numeroArmazens, capacidadeTransporte);
   
   for(int i = 0; i < numeroArmazens; i++){
     for(int j = 0; j < numeroArmazens; j++){
-      arquivo >> r.conexoes[i][j];
+      arquivo >> rede.conexoes[i][j];
     }
   }
-  
-  _log(r);
-  
+    
   int numPacotes;
 
   arquivo >> numPacotes;
-  _log(numPacotes);
-
+  
+  Escalonador escalonador = Escalonador(numPacotes, &rede);
+  
   for(int i = 0; i < numPacotes; i++){
     int tempInicial;
     int idPacote;
@@ -68,15 +64,15 @@ int main(int argc, char* argv[]){
     char aux[8];
 
     arquivo >> tempInicial >> aux >> idPacote >> aux >> idArmazemOriginal >> aux >> idArmazemDestino;
-    
     Pacote pacote = Pacote(idPacote, tempInicial, tempInicial, "", "", Postado, idArmazemOriginal, idArmazemDestino);
+    
+    // TODO: Adicionar o evento no escalonador
+    // TODO: A partir do evento no escalonador, adicionar o pacote na rede
+    escalonador.addEvento(new Evento(pacote.id, pacote.horaPostagem, pacote.idArmazemOrigem, -1, pacote.idArmazemDestino, PostagemPacote), tempInicial);
 
-    _log(tempInicial);
-    _log(idPacote);
-    _log(idArmazemOriginal);
-    _log(idArmazemDestino);
-    _log(pacote);
   }
+
+  // TODO: Simular os eventos
 
   return 0;
 }

@@ -43,7 +43,7 @@ private:
   void HeapifyPorCima(int posicao);
 };
 
-#endif
+
 
 template<typename T>
 Heap<T>::Heap(int maxsize){
@@ -161,3 +161,5 @@ template<typename T>
 HeapItem<T> Heap<T>::GetSucessorDir(int posicao) {
   return dados[GetSucessorDirPos(posicao)];
 }
+
+#endif
