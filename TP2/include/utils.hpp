@@ -50,6 +50,16 @@ void _log(const T& var){
       }
     }
   }
+  else if constexpr (is_same<T, Escalonador>::value){
+    cout << "[Escalonador] num eventos: " << var.quantidadeEventos << endl;
+    
+    for(int i = 0; i < var.quantidadeEventos; i++){
+      Evento* aux = var.eventos.dados[i].value;
+          
+      cout << "idPacote: " << aux->idPacote << endl;
+      cout << "tempo evento: " << aux->tempoEvento << endl;
+    }
+  }
   else{
     cout << "demais" << endl;
   }

@@ -8,8 +8,8 @@
 #include "armazem.hpp"
 #include "heap.hpp"
 #include "rede.hpp"
-#include "utils.hpp"
 #include "escalonador.hpp"
+#include "utils.hpp"
 
 using namespace std;
 
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]){
     }
   }
 
-  _log(rede);
+  // _log(rede);
     
   int numPacotes;
 
@@ -70,10 +70,10 @@ int main(int argc, char* argv[]){
     arquivo >> tempInicial >> aux >> idPacote >> aux >> idArmazemOriginal >> aux >> idArmazemDestino;
     Pacote pacote = Pacote(idPacote, tempInicial, tempInicial, "", "", Postado, idArmazemOriginal, idArmazemDestino);
     
-    // TODO: Adicionar o evento no escalonador
     // TODO: A partir do evento no escalonador, adicionar o pacote na rede
-    escalonador.addEvento(new Evento(pacote.id, pacote.horaPostagem, pacote.idArmazemOrigem, -1, pacote.idArmazemDestino, PostagemPacote), tempInicial);
+    escalonador.addEvento(tempInicial, &pacote, PostagemPacote);
 
+    _log(escalonador);
   }
 
   // TODO: Simular os eventos

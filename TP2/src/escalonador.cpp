@@ -14,8 +14,19 @@ Escalonador::~Escalonador() {
   }
 }
 
-void Escalonador::addEvento(Evento *evento, int tempoEvento){
-  HeapItem<Evento> novo(tempoEvento, evento);
-  eventos.Inserir(novo);
-  this->quantidadeEventos++;
+void Escalonador::addEvento(int tempoEvento, Pacote* pacote, TipoEvento tipo){
+  if(tipo == PostagemPacote){
+    Evento* evento = new Evento(
+      pacote->id, 
+      tempoEvento, 
+      pacote->idArmazemOrigem, 
+      pacote->idArmazemDestino, 
+      pacote->idArmazemDestino, 
+      PostagemPacote
+    );
+    
+    HeapItem<Evento> novo(tempoEvento, evento);
+    eventos.Inserir(novo);
+    this->quantidadeEventos++;
+  }
 }

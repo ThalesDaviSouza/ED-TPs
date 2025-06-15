@@ -63,12 +63,12 @@ public:
   ~Escalonador();
 
   void simularProximoEvento();
-  void addEvento(Evento* evento, int tempoEvento);
+  void addEvento(int tempoEvento, Pacote* pacote, TipoEvento tipo);
 
-
-private:
   Heap<Evento> eventos;
   int quantidadeEventos;
+
+private:
   Rede* rede;
 
 };
