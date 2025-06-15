@@ -1,6 +1,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <iomanip>
+
 using namespace std;
 
 template<typename T>
@@ -22,6 +24,13 @@ void _log(const T& var){
       }
       cout << endl;
     }
+  }
+  else if constexpr (is_same<T, Pacote>::value){
+    cout << setw(7) << setfill('0') << var.tempoUltimoEvento;
+    cout << " pacote " << setw(3) << setfill('0') << var.id;
+    cout << " origem " << setw(3) << setfill('0') << var.idArmazemOrigem;
+    cout << " armazenado em " << setw(3) << setfill('0') << var.idArmazemAtual;
+    cout << " destino para " << setw(3) << setfill('0') << var.idArmazemDestino << endl;
   }
   else{
     cout << "demais" << endl;

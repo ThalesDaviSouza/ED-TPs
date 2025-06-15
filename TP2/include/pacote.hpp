@@ -45,6 +45,7 @@ class Pacote{
 public:
   int id; 
   int horaPostagem;
+  int tempoUltimoEvento;
   string nomeRemetente;
   string nomeDestinatario;
   TipoPacote tipo;
@@ -56,6 +57,7 @@ public:
   Pacote(
     int id,
     int horaPostagem, 
+    int tempoUltimoEvento, 
     string remetente, 
     string destinatario, 
     TipoPacote tipo, 
@@ -64,6 +66,7 @@ public:
   ): 
     id(id),
     horaPostagem(horaPostagem), 
+    tempoUltimoEvento(tempoUltimoEvento), 
     nomeRemetente(remetente), 
     nomeDestinatario(destinatario), 
     tipo(tipo), 

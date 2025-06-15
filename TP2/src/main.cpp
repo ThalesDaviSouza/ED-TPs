@@ -45,16 +45,38 @@ int main(int argc, char* argv[]){
   _log(numeroArmazens);
   
   Rede r(numeroArmazens, capacidadeTransporte);
-
+  
   for(int i = 0; i < numeroArmazens; i++){
     for(int j = 0; j < numeroArmazens; j++){
       arquivo >> r.conexoes[i][j];
     }
   }
-
+  
   _log(r);
+  
+  int numPacotes;
 
-  // TODO: ler os pacotes
+  arquivo >> numPacotes;
+  _log(numPacotes);
+
+  for(int i = 0; i < numPacotes; i++){
+    int tempInicial;
+    int idPacote;
+    int idArmazemOriginal;
+    int idArmazemDestino;
+    // Var para ler as palavras presentes no arquivo de entrada que não serão usadas
+    char aux[8];
+
+    arquivo >> tempInicial >> aux >> idPacote >> aux >> idArmazemOriginal >> aux >> idArmazemDestino;
+    
+    Pacote pacote = Pacote(idPacote, tempInicial, tempInicial, "", "", Postado, idArmazemOriginal, idArmazemDestino);
+
+    _log(tempInicial);
+    _log(idPacote);
+    _log(idArmazemOriginal);
+    _log(idArmazemDestino);
+    _log(pacote);
+  }
 
   return 0;
 }
