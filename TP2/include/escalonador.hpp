@@ -5,11 +5,19 @@
 #include "rede.hpp"
 
 enum TipoEvento{
-  PostagemPacote, // quando o pacote acabou de ser postado
-  ArmazenamentoPacote, // Pacote chegou no e foi armazenado armázem
-  RemocaoPacote, // Pacote foi removida de uma seção do armázem
-  TransportePacote, // Pacote está sendo transferido entre armázens
-  EntregaPacote // Pacote foi entregue na unidade destino 
+  // quando o pacote acabou de ser postado
+  PostagemPacote, 
+  // Pacote chegou e foi armazenado no armázem
+  ArmazenamentoPacote, 
+  // Pacote foi removida de uma seção do armázem
+  RemocaoPacote, 
+  // Pacote foi pra pilha auxiliar mas não teve espaço no transporte
+  RealocacaoPacote, 
+  // Pacote está sendo transferido entre armázens
+  // Toda vez que é executado, agenda outro automaticamente para o próximo ciclo
+  TransportePacote, 
+  // Pacote foi entregue na unidade destino 
+  EntregaPacote 
 };
 
 class Evento{
@@ -59,7 +67,7 @@ public:
 
 class Escalonador{
 public:
-  Escalonador(int numPacotes, Rede* rede);
+  Escalonador(int numPacotes, Rede* rede, int intervaloTransporte);
   ~Escalonador();
 
   void simularProximoEvento();
@@ -67,9 +75,12 @@ public:
 
   Heap<Evento> eventos;
   int quantidadeEventos;
-
+  int pacotesAtivos;
+  int intervaloTransporte;
+  
 private:
   Rede* rede;
+  bool primeiroPacotePostado;
 
 };
 

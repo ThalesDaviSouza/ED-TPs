@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include <iomanip>
+#include <iostream>
 
 using namespace std;
 
@@ -55,9 +56,20 @@ void _log(const T& var){
     
     for(int i = 0; i < var.quantidadeEventos; i++){
       Evento* aux = var.eventos.dados[i].value;
-          
-      cout << "idPacote: " << aux->idPacote << endl;
-      cout << "tempo evento: " << aux->tempoEvento << endl;
+      _log(*aux);
+    }
+  }
+  else if constexpr (is_same<T, Evento>::value){
+    if(var.tipo == PostagemPacote){
+      cout << "[Evento]"; 
+      cout << " idPacote: " << var.idPacote;
+      cout << " tempo evento: " << var.tempoEvento << endl;
+    }
+    else if(var.tipo == ArmazenamentoPacote){
+      cout << setw(7) << setfill('0') << var.tempoEvento;
+      cout << " pacote " << setw(3) << setfill('0') << var.idPacote;
+      cout << " armazenado em " << setw(3) << setfill('0') << var.idArmazemOrigem;
+      cout << " na secao " << setw(3) << setfill('0') << var.idArmazemDestino << endl;
     }
   }
   else{

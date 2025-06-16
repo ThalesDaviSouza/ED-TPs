@@ -92,45 +92,39 @@ template<typename T>
 void Heap<T>::HeapifyPorBaixo(int posicao) {
   int posAncestral = GetAncestralPos(posicao);
 
-  if (posAncestral >= 0) {
-    HeapItem<T> ancestral = GetAncestral(posicao);
-
-    if (tamanho > 1 && ISBIGGER(ancestral.chave, dados[posicao].chave)) {
-      HeapItem<T> aux = dados[posicao];
-      dados[posicao] = dados[posAncestral];
-      dados[posAncestral] = aux;
-
-      HeapifyPorBaixo(posAncestral);
-    }
+  if (posAncestral >= 0 && dados[posAncestral].chave > dados[posicao].chave) {
+    HeapItem<T> aux = dados[posicao];
+    dados[posicao] = dados[posAncestral];
+    dados[posAncestral] = aux;
+    HeapifyPorBaixo(posAncestral);
   }
 }
+
 
 template<typename T>
 void Heap<T>::HeapifyPorCima(int posicao) {
-  int esquerdoPos = GetSucessorEsqPos(posicao);
-  int direitoPos = GetSucessorDirPos(posicao);
+  int menor = posicao;
 
-  int prox = -1;
+  int esquerdo = GetSucessorEsqPos(posicao);
+  int direito = GetSucessorDirPos(posicao);
 
-  if (direitoPos < tamanho && ISSMALLER(dados[direitoPos].chave, dados[esquerdoPos].chave) && ISBIGGER(dados[posicao].chave, dados[direitoPos].chave)) {
-    HeapItem<T> aux = dados[posicao];
-    dados[posicao] = dados[direitoPos];
-    dados[direitoPos] = aux;
-
-    prox = direitoPos;
+  if (esquerdo < tamanho && dados[esquerdo].chave < dados[menor].chave) {
+    menor = esquerdo;
   }
-  else if (esquerdoPos < tamanho && ISBIGGER(dados[posicao].chave, dados[esquerdoPos].chave)) {
+
+  if (direito < tamanho && dados[direito].chave < dados[menor].chave) {
+    menor = direito;
+  }
+
+  if (menor != posicao) {
     HeapItem<T> aux = dados[posicao]; 
-    dados[posicao] = dados[esquerdoPos];
-    dados[esquerdoPos] = aux;
+    dados[posicao] = dados[menor];
+    dados[menor] = aux;
     
-    prox = esquerdoPos;
-  }
-
-  if (prox != -1 && prox < tamanho) {
-    HeapifyPorCima(prox);
+    HeapifyPorCima(menor);
   }
 }
+
 
 template<typename T>
 int Heap<T>::GetAncestralPos(int posicao) {

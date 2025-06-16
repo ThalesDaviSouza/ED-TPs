@@ -84,7 +84,7 @@ Cada linha contém:
 
 Exemplo de entrada:
 - 2 (capacida do transporte)
-- 20 (latência do transporte em outras palavras, tempo para realizar o transporte)
+- 20 (latência do transporte, em outras palavras, tempo para realizar o transporte)
 - 100 (intervalo entre transportes)
 - 1 (custo de remocao de 1 pacote)
 - 4 (numero de armazens)

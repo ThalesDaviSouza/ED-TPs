@@ -57,7 +57,7 @@ int main(int argc, char* argv[]){
 
   arquivo >> numPacotes;
   
-  Escalonador escalonador = Escalonador(numPacotes, &rede);
+  Escalonador escalonador = Escalonador(numPacotes, &rede, intervaloTransporte);
   
   for(int i = 0; i < numPacotes; i++){
     int tempInicial;
@@ -68,12 +68,17 @@ int main(int argc, char* argv[]){
     char aux[8];
 
     arquivo >> tempInicial >> aux >> idPacote >> aux >> idArmazemOriginal >> aux >> idArmazemDestino;
-    Pacote pacote = Pacote(idPacote, tempInicial, tempInicial, "", "", Postado, idArmazemOriginal, idArmazemDestino);
+    Pacote* pacote = new Pacote(idPacote, tempInicial, tempInicial, "", "", Postado, idArmazemOriginal, idArmazemDestino);
     
-    // TODO: A partir do evento no escalonador, adicionar o pacote na rede
-    escalonador.addEvento(tempInicial, &pacote, PostagemPacote);
+    escalonador.addEvento(tempInicial, pacote, PostagemPacote);
+    
+  }
+  // _log(escalonador);
 
-    _log(escalonador);
+  // TODO: A partir do evento no escalonador, adicionar o pacote na rede
+
+  while(escalonador.quantidadeEventos > 0){
+    escalonador.simularProximoEvento();
   }
 
   // TODO: Simular os eventos
