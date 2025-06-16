@@ -75,11 +75,11 @@ int main(int argc, char* argv[]){
   }
   // _log(escalonador);
 
-  // TODO: A partir do evento no escalonador, adicionar o pacote na rede
-
   while(escalonador.quantidadeEventos > 0){
     escalonador.simularProximoEvento();
   }
+
+  _log(rede);
 
   // TODO: Simular os eventos
 

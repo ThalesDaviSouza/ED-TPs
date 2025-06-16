@@ -73,7 +73,7 @@ void Escalonador::simularProximoEvento(){
   quantidadeEventos--;
 
   if(evento.tipo == PostagemPacote){
-    // TODO: Calcular a rota do pacote antes de armazenar ele
+    // TODO: Adicionar a rota calculada no pacote
 
     addEvento(evento.tempoEvento, evento.pacote, ArmazenamentoPacote);
 
@@ -83,7 +83,7 @@ void Escalonador::simularProximoEvento(){
     }
   }
   else if(evento.tipo == ArmazenamentoPacote){
-    rede->armazens[evento.idArmazemOrigem].ArmazenarPacote(*evento.pacote);
+    rede->addPacote(evento.idArmazemOrigem, evento.idArmazemDestino, evento.pacote);
     _log(evento);
   }
   else if(evento.tipo == TransportePacote){
