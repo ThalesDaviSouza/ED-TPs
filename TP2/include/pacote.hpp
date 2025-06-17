@@ -52,7 +52,9 @@ public:
   int idArmazemOrigem;
   int idArmazemDestino;
   int idArmazemAtual;
-  List<RotaNo>* Rotas;
+  int idSecaoAtual;
+  // List<RotaNo>* Rotas;
+  List<int>* Rotas;
 
   Pacote(
     int id,
@@ -73,7 +75,9 @@ public:
     idArmazemOrigem(idArmazemOrigem), 
     idArmazemDestino(idArmazemDestino), 
     idArmazemAtual(-1),
-    Rotas(List<RotaNo>::createList()) { }
+    idSecaoAtual(-1),
+    Rotas(List<int>::createList()) { }
+    // Rotas(List<RotaNo>::createList()) { }
 
   ~Pacote();
 

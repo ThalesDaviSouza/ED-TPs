@@ -34,8 +34,9 @@ void _log(const T& var){
 
   }
   else if constexpr (is_same<T, Pacote>::value){
+    int idAux = var.id % 1100;
     cout << setw(7) << setfill('0') << var.tempoUltimoEvento;
-    cout << " pacote " << setw(3) << setfill('0') << var.id;
+    cout << " pacote " << setw(3) << setfill('0') << idAux;
     cout << " origem " << setw(3) << setfill('0') << var.idArmazemOrigem;
     cout << " armazenado em " << setw(3) << setfill('0') << var.idArmazemAtual;
     cout << " destino para " << setw(3) << setfill('0') << var.idArmazemDestino << endl;
@@ -46,10 +47,25 @@ void _log(const T& var){
     if(var.secoes != nullptr){
       List<Secao>* aux = var.secoes;
       for(int i = 0; i < var.numSecoes; i++){
-        cout << "idDestino: " << aux->value->idArmazemDestino << endl;
+        // cout << "idDestino: " << aux->value->idArmazemDestino << endl;
+        _log(*aux->value);
         aux = aux->next;
       }
     }
+  }
+  else if constexpr (is_same<T, Secao>::value){
+    cout << "[Secao] Armazem Destino: " << var.idArmazemDestino << endl;
+    Pilha<Pacote>* aux = var.pacotes;
+
+    if(aux->value == nullptr){
+      cout << "sem pacotes na pilha" << endl;
+    }
+    
+    while(aux != nullptr && aux->value != nullptr){
+      _log(*aux->value);
+      aux = aux->next;
+    }
+    
   }
   else if constexpr (is_same<T, Escalonador>::value){
     cout << "[Escalonador] num eventos: " << var.quantidadeEventos << endl;
@@ -66,8 +82,9 @@ void _log(const T& var){
       cout << " tempo evento: " << var.tempoEvento << endl;
     }
     else if(var.tipo == ArmazenamentoPacote){
+      int idAux = var.idPacote % 1100;
       cout << setw(7) << setfill('0') << var.tempoEvento;
-      cout << " pacote " << setw(3) << setfill('0') << var.idPacote;
+      cout << " pacote " << setw(3) << setfill('0') << idAux;
       cout << " armazenado em " << setw(3) << setfill('0') << var.idArmazemOrigem;
       cout << " na secao " << setw(3) << setfill('0') << var.idArmazemDestino << endl;
     }

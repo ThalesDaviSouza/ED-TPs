@@ -73,8 +73,6 @@ void Escalonador::simularProximoEvento(){
   quantidadeEventos--;
 
   if(evento.tipo == PostagemPacote){
-    // TODO: Adicionar a rota calculada no pacote
-
     addEvento(evento.tempoEvento, evento.pacote, ArmazenamentoPacote);
 
     if(primeiroPacotePostado){
@@ -83,11 +81,13 @@ void Escalonador::simularProximoEvento(){
     }
   }
   else if(evento.tipo == ArmazenamentoPacote){
+    // TODO: validar se o pacote chegou no armazem destino (gerar evento de entrega) 
+    //       ou em um armazém de transporte (gerar evento de armazenamento)
     rede->addPacote(evento.idArmazemOrigem, evento.idArmazemDestino, evento.pacote);
-    _log(evento);
+    // _log(*rede);
   }
   else if(evento.tipo == TransportePacote){
-    cout << "Transporte: " << evento.tempoEvento << endl;
+    // cout << "Transporte: " << evento.tempoEvento << endl;
   }
 
 }

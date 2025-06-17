@@ -21,9 +21,41 @@ Armazem::~Armazem(){
 
 void Armazem::ArmazenarPacote(Pacote& pacote){
   auto aux = this->secoes;
-  int idArmazemDestino = pacote.idArmazemDestino;
 
-  while(aux != nullptr && aux->value->idArmazemDestino != idArmazemDestino){
+  // Uma vez que o pacote chegou no armazém
+  // Atualizamos o id do armazém atual e da seção atual
+  // Se o id for -1, então ainda não tinha começado
+  if(pacote.idSecaoAtual == -1){
+    pacote.idArmazemAtual = *pacote.Rotas->value;
+  }
+  else{
+    auto rota = pacote.Rotas;
+    while (rota->hasValue()){
+      if(*rota->value == pacote.idArmazemAtual && rota->next->hasValue()){
+        pacote.idArmazemAtual = *rota->next->value;
+        break;
+      }
+      rota = rota->next;
+    }
+  }
+  
+  auto posicaoRota = pacote.Rotas;
+
+  while(posicaoRota->hasValue()){
+    if(*posicaoRota->value == pacote.idArmazemAtual){
+      auto next = posicaoRota->next;
+
+      if(next->hasValue()){
+        pacote.idSecaoAtual = *next->value;
+        break;
+      }
+    }
+    posicaoRota = posicaoRota->next;
+  }
+
+  int idSecaoDestino = pacote.idSecaoAtual;
+
+  while(aux != nullptr && aux->value->idArmazemDestino != idSecaoDestino){
     aux = aux->next;
   }
 

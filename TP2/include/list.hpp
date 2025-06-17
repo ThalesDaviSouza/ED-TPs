@@ -17,6 +17,7 @@ public:
   T removeFirst();
   void limpar();
   bool isVazio();
+  bool hasValue();
   
 private:
   List(T& value, List* next)
@@ -28,6 +29,10 @@ private:
 template<typename T>
 List<T>* List<T>::createList(){
   return new List();
+}
+template<typename T>
+bool List<T>::hasValue(){
+  return this != nullptr && this->value != nullptr;
 }
 
 template<typename T>

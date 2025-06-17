@@ -79,18 +79,19 @@ List<int>* Rede::calcularRotaPacote(int idArmazemOrigem, int idArmazemDestino){
 }
 
 void Rede::addPacote(int idArmazem, int idArmazemDestino, Pacote* pacote){
-  cout << "Calculando rota pacote" << endl;
 
   List<int>* rota = calcularRotaPacote(idArmazem, idArmazemDestino);
   List<int>* aux = rota;
 
-  cout << endl << endl;
+  // cout << endl << endl;
 
-  while(aux != nullptr){
-    cout << *aux->value << endl;
-    aux = aux->next;
-  }
-  cout << endl << endl;
+  // while(aux != nullptr){
+  //   cout << *aux->value << endl;
+  //   aux = aux->next;
+  // }
+  // cout << endl << endl;
+
+  pacote->Rotas = rota;
 
   armazens[idArmazem].ArmazenarPacote(*pacote);
 }
