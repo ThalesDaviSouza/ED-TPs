@@ -72,6 +72,7 @@ void _log(const T& var){
     
     for(int i = 0; i < var.quantidadeEventos; i++){
       Evento* aux = var.eventos.dados[i].value;
+      // cout << "chave: " << setw(13) << setfill('0') << var.eventos.dados[i].chave << endl;
       _log(*aux);
     }
   }

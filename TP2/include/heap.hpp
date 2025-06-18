@@ -3,15 +3,16 @@
 
 #define ISBIGGER(x, y) (x > y ? true : false)
 #define ISSMALLER(x, y) (x < y ? true : false)
+#define ULLI unsigned long long int
 
 template<typename T>
 class HeapItem{
 public:
-  int chave;
+  ULLI chave;
   T* value;
 
   HeapItem() : chave(-1), value(nullptr) { }
-  HeapItem(int chave, T* value)
+  HeapItem(ULLI chave, T* value)
   : chave(chave), value(value) { }
 
 };

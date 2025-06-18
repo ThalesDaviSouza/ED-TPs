@@ -77,9 +77,10 @@ int main(int argc, char* argv[]){
 
   while(escalonador.quantidadeEventos > 0){
     escalonador.simularProximoEvento();
+    _log(escalonador);
   }
 
-  _log(rede);
+  // _log(rede);
 
   // TODO: Simular os eventos
 

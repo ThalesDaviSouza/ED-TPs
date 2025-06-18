@@ -12,9 +12,11 @@ enum TipoEvento{
   // Pacote foi removida de uma seção do armázem
   RemocaoPacote, 
   // Pacote foi pra pilha auxiliar mas não teve espaço no transporte
-  RealocacaoPacote, 
-  // Pacote está sendo transferido entre armázens
+  RealocacaoPacote,
+  // Transporte de Todos os pacotes 
   // Toda vez que é executado, agenda outro automaticamente para o próximo ciclo
+  TransportePacotes, 
+  // Pacote está sendo transferido entre armázens
   TransportePacote, 
   // Pacote foi entregue na unidade destino 
   EntregaPacote 
@@ -81,6 +83,8 @@ public:
 private:
   Rede* rede;
   bool primeiroPacotePostado;
+
+  ULLI gerarChave(int tempo, Evento* evento);
 
 };
 
