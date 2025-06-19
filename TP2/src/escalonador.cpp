@@ -28,14 +28,18 @@ ULLI Escalonador::gerarChave(int tempo, Evento* evento){
     digitoTipo = 2;
   }
   else if(evento->tipo == TransportePacote){
-    // digitoMeio += (evento->pacote->idArmazemOrigem * 100);
-    // digitoMeio += evento->pacote->idArmazemDestino;
+    digitoMeio += (evento->pacote->idArmazemOrigem * 1000);
+    digitoMeio += evento->pacote->idArmazemDestino;
 
-    digitoMeio = evento->pacote->id;
     digitoTipo = 2;
   }
+  else if(evento->tipo == RemocaoPacote){
+    digitoMeio = 0;
+    digitoTipo = 1;
+  }
   else{
-    digitoMeio = evento->pacote->id;
+    int idAux = evento->pacote->id;
+    digitoMeio = idAux;
   }
 
   chave = (tempo * 10000000) + (digitoMeio * 10) + digitoTipo; 
@@ -133,6 +137,10 @@ void Escalonador::addEvento(int tempoEvento, Pacote* pacote, TipoEvento tipo){
     eventos.Inserir(*novo);
 
   this->quantidadeEventos++;
+
+  if(tipo == TransportePacote){
+    _log(*evento);
+  }
 }
 
 void Escalonador::simularProximoEvento(){
@@ -149,6 +157,8 @@ void Escalonador::simularProximoEvento(){
       primeiroPacotePostado = false; 
       addEvento(evento.tempoEvento + intervaloTransporte, nullptr, TransportePacotes);
     }
+
+    return;
   }
   else if(evento.tipo == ArmazenamentoPacote){
     // TODO: validar se o pacote chegou no armazem destino (gerar evento de entrega) 
@@ -168,30 +178,40 @@ void Escalonador::simularProximoEvento(){
         evento.idArmazemDestino = evento.pacote->idSecaoAtual;
       }
     }
-    // _log(*rede);
+
+    _log(evento);
+
   }
   else if(evento.tipo == TransportePacotes){
-    // TODO: programar o próximo evento de transporte e agendar os eventos de remoção
+    // TODO: programar o próximo evento de transporte
     cout << "Transporte: " << evento.tempoEvento << endl;
 
-    // TODO: entrar em cada secao de cada armazem 
-    RecuperarPacote(0, 1);
+    for(int i = 0; i < rede->numArmazens; i++){
+      for(int j = 0; j < rede->armazens[i].numSecoes; j++){
+        ProcessarChegadaTransporte(i, j);
+      }
+    }
+  }
+  else if(evento.tipo == TransportePacote){
+    // TODO: gerar evento de armazenamento no armazém correto
   }
 
   // cout << "chave: " << prox.chave << " ";
-  _log(evento);
+  // _log(evento);
 
 }
 
-void Escalonador::RecuperarPacote(int idArmazemOrigem, int idArmazemDestino){
-  auto secao = this->rede->armazens[idArmazemOrigem].secoes;
-  while(secao != nullptr && secao->value->idArmazemDestino != idArmazemDestino){
-    secao = secao->next;
+void Escalonador::ProcessarChegadaTransporte(int idArmazemOrigem, int idSecao){
+  List<Secao>* secoes = this->rede->armazens[idArmazemOrigem].secoes;
+  int count = 0;
+  while(count < idSecao){
+    secoes = secoes->next;
+    count++;
   }
 
-  if(secao != nullptr){
-    auto pacotes = secao->value->pacotes;
-    int numRemocoes = 0;
+  if(secoes != nullptr){
+    auto pacotes = secoes->value->pacotes;
+    int numRemocoes = 1;
     int numPacotesEmTransito = 0;
     int tempoUltimaRemocao = 0;
     Pilha<Pacote>* pilhaAux = Pilha<Pacote>::createPilha();
@@ -200,17 +220,29 @@ void Escalonador::RecuperarPacote(int idArmazemOrigem, int idArmazemDestino){
     /**
      * Roda o loop até limpar a pilha e cria os eventos de remoção
      */
-    numRemocoes = 0;
     while (pacotes->value != nullptr)
     {
       pacoteAux = pacotes->value;
       pacotes = pacotes->remove(false);
       pilhaAux = pilhaAux->add(*pacoteAux);
       
-      addEvento(tempoUltimoEvento + (numRemocoes * custoRemocao), pacoteAux, RemocaoPacote);
+      // addEvento(tempoUltimoEvento + (numRemocoes * custoRemocao), pacoteAux, RemocaoPacote);
+      
+      Evento evento = Evento(
+        pacoteAux->id, 
+        tempoUltimoEvento + (numRemocoes * custoRemocao), 
+        pacoteAux->idArmazemOrigem, 
+        pacoteAux->idArmazemDestino, 
+        pacoteAux->idArmazemDestino, 
+        RemocaoPacote,
+        pacoteAux
+      );
+      
+      _log(evento);
+
       numRemocoes++;
     }
-    
+
     tempoUltimaRemocao = tempoUltimoEvento + ((numRemocoes-1) * custoRemocao);
     numPacotesEmTransito = 0;
 
@@ -219,7 +251,31 @@ void Escalonador::RecuperarPacote(int idArmazemOrigem, int idArmazemDestino){
       // para ser colocado em trânsito
       if(numPacotesEmTransito < rede->capacidadeTransporte){
         numPacotesEmTransito++;
+        
+        // TODO: adicionar evento no escalonador
         addEvento(tempoUltimaRemocao, pilhaAux->value, TransportePacote);
+
+        // List<int>* proxNoRota = pilhaAux->value->Rotas;
+        // int proxArmazem = -1;
+
+        // while(*proxNoRota->value != pilhaAux->value->idArmazemAtual){
+        //   proxNoRota = proxNoRota->next;
+        // }
+        // proxNoRota = proxNoRota->next;
+        // proxArmazem = *proxNoRota->value;
+
+        // Evento eventoRemocao = Evento(
+        //   pilhaAux->value->id, 
+        //   tempoUltimaRemocao, 
+        //   pilhaAux->value->idArmazemOrigem, 
+        //   pilhaAux->value->idArmazemDestino, 
+        //   proxArmazem, 
+        //   TransportePacote,
+        //   pilhaAux->value
+        // );
+
+        // _log(eventoRemocao);
+
         pilhaAux = pilhaAux->remove(false);
       }
 
@@ -230,7 +286,20 @@ void Escalonador::RecuperarPacote(int idArmazemOrigem, int idArmazemDestino){
         auto aux = pilhaAux->value;
         pilhaAux = pilhaAux->remove(false);
         pacotes = pacotes->add(*aux);
-        addEvento(tempoUltimaRemocao, aux, RealocacaoPacote);
+        // addEvento(tempoUltimaRemocao, aux, RealocacaoPacote);
+
+        Evento evento = Evento(
+          aux->id, 
+          tempoUltimaRemocao, 
+          aux->idArmazemOrigem, 
+          aux->idArmazemDestino, 
+          aux->idArmazemAtual, 
+          RealocacaoPacote,
+          aux
+        );
+
+        _log(evento);
+
       }
     }
   }

@@ -43,7 +43,10 @@ public:
 
 class Pacote{
 public:
+  // É o id sequencial
   int id; 
+  // É o id informado no arquivo
+  int idAux; 
   int horaPostagem;
   int tempoUltimoEvento;
   string nomeRemetente;
@@ -58,6 +61,7 @@ public:
 
   Pacote(
     int id,
+    int idAux,
     int horaPostagem, 
     int tempoUltimoEvento, 
     string remetente, 
@@ -67,6 +71,7 @@ public:
     int idArmazemDestino
   ): 
     id(id),
+    idAux(idAux),
     horaPostagem(horaPostagem), 
     tempoUltimoEvento(tempoUltimoEvento), 
     nomeRemetente(remetente), 

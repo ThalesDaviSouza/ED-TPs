@@ -69,6 +69,7 @@ int main(int argc, char* argv[]){
 
     arquivo >> tempInicial >> aux >> idPacote >> aux >> idArmazemOriginal >> aux >> idArmazemDestino;
     Pacote* pacote = new Pacote(
+      i,
       idPacote,
       tempInicial,
       tempInicial,

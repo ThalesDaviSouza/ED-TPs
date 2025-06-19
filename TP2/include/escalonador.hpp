@@ -87,7 +87,7 @@ private:
   bool primeiroPacotePostado;
 
   ULLI gerarChave(int tempo, Evento* evento);
-  void RecuperarPacote(int idArmazemOrigem, int idArmazemDestino);
+  void ProcessarChegadaTransporte(int idArmazemOrigem, int idArmazemDestino);
 
 };
 
