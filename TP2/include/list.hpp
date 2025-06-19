@@ -15,6 +15,7 @@ public:
   void add(T& newValue);
   List<T>* addFirst(T& newValue);
   T removeFirst();
+  T* lastValue();
   void limpar();
   bool isVazio();
   bool hasValue();
@@ -106,5 +107,19 @@ T List<T>::removeFirst(){
   return removido;
 }
 
+template<typename T>
+T* List<T>::lastValue(){
+  List<T>* aux = this;
+
+  if(aux->isVazio()){
+    return nullptr;
+  }
+
+  while(aux->next != nullptr){
+    aux = aux->next;
+  }
+
+  return aux->value;
+}
 
 #endif

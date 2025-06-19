@@ -25,7 +25,6 @@ public:
 
   void addSecao(int idArmazemDestino);
   void ArmazenarPacote(Pacote& pacote);
-  Pacote* RecuperarPacote(int idPacote, int idArmazemDestino);
 };
 
 #endif

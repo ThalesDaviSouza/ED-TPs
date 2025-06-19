@@ -2,8 +2,8 @@ CFLAGS = -I include
 
 all: output
 
-output: obj/main.o obj/pacote.o obj/armazem.o obj/rede.o obj/escalonador.o
-	g++ -o bin/tp2.exe obj/main.o obj/pacote.o obj/armazem.o obj/rede.o obj/escalonador.o
+output: obj/pacote.o obj/armazem.o obj/rede.o obj/escalonador.o obj/main.o
+	g++ -o bin/tp2.exe obj/pacote.o obj/armazem.o obj/rede.o obj/escalonador.o  obj/main.o
 
 obj/main.o: ./src/main.cpp ./include/utils.hpp ./include/list.hpp ./include/heap.hpp ./include/pilha.hpp | obj
 	g++ $(CFLAGS) -c ./src/main.cpp -o obj/main.o

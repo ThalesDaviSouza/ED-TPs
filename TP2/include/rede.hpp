@@ -1,9 +1,9 @@
 #ifndef REDE_H
 #define REDE_H
 
-#include "armazem.hpp"
-#include "pacote.hpp"
 #include "list.hpp"
+#include "pacote.hpp"
+#include "armazem.hpp"
 
 enum VisitadoStatus{
   naoVisto = -1,

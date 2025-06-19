@@ -69,7 +69,7 @@ public:
 
 class Escalonador{
 public:
-  Escalonador(int numPacotes, Rede* rede, int intervaloTransporte);
+  Escalonador(int numPacotes, Rede* rede, int intervaloTransporte, int custoRemocao);
   ~Escalonador();
 
   void simularProximoEvento();
@@ -79,12 +79,15 @@ public:
   int quantidadeEventos;
   int pacotesAtivos;
   int intervaloTransporte;
+  int custoRemocao;
+  int tempoUltimoEvento;
   
 private:
   Rede* rede;
   bool primeiroPacotePostado;
 
   ULLI gerarChave(int tempo, Evento* evento);
+  void RecuperarPacote(int idArmazemOrigem, int idArmazemDestino);
 
 };
 

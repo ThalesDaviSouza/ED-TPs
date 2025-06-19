@@ -5,8 +5,8 @@
 #include "pacote.hpp"
 #include "list.hpp"
 #include "pilha.hpp"
-#include "armazem.hpp"
 #include "heap.hpp"
+#include "armazem.hpp"
 #include "rede.hpp"
 #include "escalonador.hpp"
 #include "utils.hpp"
@@ -50,14 +50,14 @@ int main(int argc, char* argv[]){
       }
     }
   }
-
+  
   // _log(rede);
-    
+  
   int numPacotes;
-
+  
   arquivo >> numPacotes;
   
-  Escalonador escalonador = Escalonador(numPacotes, &rede, intervaloTransporte);
+  Escalonador escalonador = Escalonador(numPacotes, &rede, intervaloTransporte, custoRemocao);
   
   for(int i = 0; i < numPacotes; i++){
     int tempInicial;
@@ -68,7 +68,16 @@ int main(int argc, char* argv[]){
     char aux[8];
 
     arquivo >> tempInicial >> aux >> idPacote >> aux >> idArmazemOriginal >> aux >> idArmazemDestino;
-    Pacote* pacote = new Pacote(idPacote, tempInicial, tempInicial, "", "", Postado, idArmazemOriginal, idArmazemDestino);
+    Pacote* pacote = new Pacote(
+      idPacote,
+      tempInicial,
+      tempInicial,
+      "",
+      "",
+      Postado,
+      idArmazemOriginal,
+      idArmazemDestino
+    );
     
     escalonador.addEvento(tempInicial, pacote, PostagemPacote);
     
@@ -77,7 +86,7 @@ int main(int argc, char* argv[]){
 
   while(escalonador.quantidadeEventos > 0){
     escalonador.simularProximoEvento();
-    _log(escalonador);
+    // _log(escalonador);
   }
 
   // _log(rede);

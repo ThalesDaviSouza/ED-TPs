@@ -89,6 +89,35 @@ void _log(const T& var){
       cout << " armazenado em " << setw(3) << setfill('0') << var.idArmazemOrigem;
       cout << " na secao " << setw(3) << setfill('0') << var.idArmazemDestino << endl;
     }
+    else if(var.tipo == RemocaoPacote){
+      int idAux = var.idPacote % 1100;
+      
+      cout << setw(7) << setfill('0') << var.tempoEvento;
+      cout << " pacote " << setw(3) << setfill('0') << idAux;
+      cout << " removido de " << setw(3) << setfill('0') << var.idArmazemOrigem;
+      cout << " na secao " << setw(3) << setfill('0') << var.pacote->idSecaoAtual << endl;
+    }
+    else if(var.tipo == TransportePacote){
+      int idAux = var.idPacote % 1100;
+
+      cout << setw(7) << setfill('0') << var.tempoEvento;
+      cout << " pacote " << setw(3) << setfill('0') << idAux;
+      cout << " em transito de " << setw(3) << setfill('0') << var.idArmazemOrigem;
+      cout << " para " << setw(3) << setfill('0') << var.idArmazemDestino << endl;
+    }
+    else if(var.tipo == RealocacaoPacote){
+      int idAux = var.idPacote % 1100;
+
+      cout << setw(7) << setfill('0') << var.tempoEvento;
+      cout << " pacote " << setw(3) << setfill('0') << idAux;
+      cout << " rearmazenado em " << setw(3) << setfill('0') << var.idArmazemOrigem;
+      cout << " na secao " << setw(3) << setfill('0') << var.pacote->idSecaoAtual << endl;
+    }
+    else{
+      cout << "[Evento]"; 
+      cout << " idPacote: " << var.idPacote;
+      cout << " tempo evento: " << var.tempoEvento << endl;
+    }
   }
   else{
     cout << "demais" << endl;
