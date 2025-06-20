@@ -1,0 +1,21 @@
+2
+25
+90
+3
+7
+0 1 0 0 0 0 0
+1 0 1 0 0 0 0
+0 1 0 1 1 0 0
+0 0 1 0 0 0 0
+0 0 1 0 0 1 1
+0 0 0 0 1 0 0
+0 0 0 0 1 0 0
+8
+5 pac 1201 org 0 dst 3
+10 pac 1202 org 6 dst 0
+12 pac 1203 org 5 dst 3
+15 pac 1204 org 4 dst 1
+20 pac 1205 org 3 dst 6
+30 pac 1206 org 0 dst 5
+35 pac 1207 org 6 dst 1
+40 pac 1208 org 3 dst 0

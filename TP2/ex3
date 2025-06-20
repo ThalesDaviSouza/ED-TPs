@@ -1,0 +1,28 @@
+1
+30
+250
+8
+10
+0 1 0 0 0 0 0 0 0 0
+1 0 1 1 0 0 0 0 0 0
+0 1 0 0 0 0 0 0 0 0
+0 1 0 0 1 0 0 0 0 0
+0 0 0 1 0 1 0 0 0 0
+0 0 0 0 1 0 1 1 0 0
+0 0 0 0 0 1 0 0 0 0
+0 0 0 0 0 1 0 0 1 1
+0 0 0 0 0 0 0 1 0 0
+0 0 0 0 0 0 0 1 0 0
+12
+10 pac 1301 org 0 dst 9
+12 pac 1302 org 2 dst 8
+15 pac 1303 org 9 dst 0
+18 pac 1304 org 6 dst 3
+20 pac 1305 org 8 dst 1
+22 pac 1306 org 0 dst 5
+25 pac 1307 org 9 dst 2
+30 pac 1308 org 1 dst 8
+40 pac 1309 org 2 dst 6
+45 pac 1310 org 8 dst 3
+50 pac 1311 org 0 dst 9
+55 pac 1312 org 9 dst 0

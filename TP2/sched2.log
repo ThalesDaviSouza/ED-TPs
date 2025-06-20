@@ -1,0 +1,85 @@
+0000005 pacote 000 armazenado em 000 na secao 001
+0000010 pacote 001 armazenado em 006 na secao 004
+0000012 pacote 002 armazenado em 005 na secao 004
+0000015 pacote 003 armazenado em 004 na secao 002
+0000020 pacote 004 armazenado em 003 na secao 002
+0000030 pacote 005 armazenado em 000 na secao 001
+0000035 pacote 006 armazenado em 006 na secao 004
+0000040 pacote 007 armazenado em 003 na secao 002
+0000098 pacote 005 removido de 000 na secao 001
+0000101 pacote 000 removido de 000 na secao 001
+0000101 pacote 000 em transito de 000 para 001
+0000101 pacote 005 em transito de 000 para 001
+0000098 pacote 007 removido de 003 na secao 002
+0000101 pacote 004 removido de 003 na secao 002
+0000101 pacote 004 em transito de 003 para 002
+0000101 pacote 007 em transito de 003 para 002
+0000098 pacote 003 removido de 004 na secao 002
+0000098 pacote 003 em transito de 004 para 002
+0000098 pacote 002 removido de 005 na secao 004
+0000098 pacote 002 em transito de 005 para 004
+0000098 pacote 006 removido de 006 na secao 004
+0000101 pacote 001 removido de 006 na secao 004
+0000101 pacote 001 em transito de 006 para 004
+0000101 pacote 006 em transito de 006 para 004
+0000123 pacote 002 armazenado em 004 na secao 002
+0000123 pacote 003 armazenado em 002 na secao 001
+0000126 pacote 000 armazenado em 001 na secao 002
+0000126 pacote 001 armazenado em 004 na secao 002
+0000126 pacote 004 armazenado em 002 na secao 004
+0000126 pacote 005 armazenado em 001 na secao 002
+0000126 pacote 006 armazenado em 004 na secao 002
+0000126 pacote 007 armazenado em 002 na secao 001
+0000188 pacote 005 removido de 001 na secao 002
+0000191 pacote 000 removido de 001 na secao 002
+0000191 pacote 000 em transito de 001 para 002
+0000191 pacote 005 em transito de 001 para 002
+0000188 pacote 007 removido de 002 na secao 001
+0000191 pacote 003 removido de 002 na secao 001
+0000191 pacote 003 em transito de 002 para 001
+0000191 pacote 007 em transito de 002 para 001
+0000188 pacote 004 removido de 002 na secao 004
+0000188 pacote 004 em transito de 002 para 004
+0000188 pacote 006 removido de 004 na secao 002
+0000191 pacote 001 removido de 004 na secao 002
+0000194 pacote 002 removido de 004 na secao 002
+0000194 pacote 002 em transito de 004 para 002
+0000194 pacote 001 em transito de 004 para 002
+0000194 pacote 006 rearmazenado em 004 na secao 002
+0000213 pacote 004 armazenado em 004 na secao 006
+0000216 pacote 000 armazenado em 002 na secao 003
+0000216 pacote 003 entregue em 001
+0000216 pacote 005 armazenado em 002 na secao 004
+0000216 pacote 007 armazenado em 001 na secao 000
+0000219 pacote 001 armazenado em 002 na secao 001
+0000219 pacote 002 armazenado em 002 na secao 003
+0000278 pacote 007 removido de 001 na secao 000
+0000278 pacote 007 em transito de 001 para 000
+0000278 pacote 001 removido de 002 na secao 001
+0000278 pacote 001 em transito de 002 para 001
+0000278 pacote 002 removido de 002 na secao 003
+0000281 pacote 000 removido de 002 na secao 003
+0000281 pacote 000 em transito de 002 para 003
+0000281 pacote 002 em transito de 002 para 003
+0000278 pacote 005 removido de 002 na secao 004
+0000278 pacote 005 em transito de 002 para 004
+0000278 pacote 006 removido de 004 na secao 002
+0000278 pacote 006 em transito de 004 para 002
+0000278 pacote 004 removido de 004 na secao 006
+0000278 pacote 004 em transito de 004 para 006
+0000303 pacote 001 armazenado em 001 na secao 000
+0000303 pacote 004 entregue em 006
+0000303 pacote 005 armazenado em 004 na secao 005
+0000303 pacote 006 armazenado em 002 na secao 001
+0000303 pacote 007 entregue em 000
+0000306 pacote 000 entregue em 003
+0000306 pacote 002 entregue em 003
+0000368 pacote 001 removido de 001 na secao 000
+0000368 pacote 001 em transito de 001 para 000
+0000368 pacote 006 removido de 002 na secao 001
+0000368 pacote 006 em transito de 002 para 001
+0000368 pacote 005 removido de 004 na secao 005
+0000368 pacote 005 em transito de 004 para 005
+0000393 pacote 001 entregue em 000
+0000393 pacote 005 entregue em 005
+0000393 pacote 006 entregue em 001
