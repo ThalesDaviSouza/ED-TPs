@@ -168,7 +168,9 @@ void Escalonador::simularProximoEvento(){
   Evento evento = *prox.value;
   tempoUltimoEvento = prox.value->tempoEvento;
 
+  // cout << "Tipo evento: " << evento.tipo << endl;
   // _log(evento);
+
 
   quantidadeEventos--;
 
@@ -213,14 +215,14 @@ void Escalonador::simularProximoEvento(){
     }
   }
   else if(evento.tipo == TransportePacote){
-  
     List<int>* proxNoRota = evento.pacote->Rotas;
     int proxArmazem = -1;
-
+    
     while(*proxNoRota->value != evento.pacote->idArmazemAtual){
       proxNoRota = proxNoRota->next;
     }
     proxNoRota = proxNoRota->next;
+
     if(proxNoRota != nullptr && !proxNoRota->isVazio() && *proxNoRota->value != evento.pacote->idArmazemDestino){
       addEvento(evento.tempoEvento + custoTransporte, evento.pacote, ArmazenamentoPacote);
     }
@@ -241,11 +243,12 @@ void Escalonador::simularProximoEvento(){
 void Escalonador::ProcessarChegadaTransporte(int idArmazemOrigem, int idSecao){
   List<Secao>* secoes = this->rede->armazens[idArmazemOrigem].secoes;
   int count = 0;
+  
   while(count < idSecao){
     secoes = secoes->next;
     count++;
   }
-
+  
   if(secoes != nullptr){
     auto pacotes = secoes->value->pacotes;
     int numRemocoes = 1;
@@ -284,10 +287,10 @@ void Escalonador::ProcessarChegadaTransporte(int idArmazemOrigem, int idSecao){
     if(pacoteAux != nullptr){
       // Removo o pacoteAux da pilhaAux
       // para ser colocado em trânsito
-      while(numPacotesEmTransito < rede->capacidadeTransporte){
+      while(numPacotesEmTransito < rede->capacidadeTransporte && pilhaAux->value != nullptr){
         addEvento(tempoUltimaRemocao, pilhaAux->value, TransportePacote);
         pilhaAux = pilhaAux->remove(false);
-        
+
         numPacotesEmTransito++;
       }
 

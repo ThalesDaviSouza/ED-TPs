@@ -85,17 +85,25 @@ void _log(const T& var){
     else if(var.tipo == ArmazenamentoPacote){
       // int idAux = var.idPacote % 1100;
       int idArmazemAtual = -1;
+      int idSecaoAtual = -1;
       if(var.pacote->idArmazemAtual == -1){
         idArmazemAtual = var.pacote->idArmazemOrigem;
       }
       else{
         idArmazemAtual = var.pacote->idArmazemAtual;
       }
+      
+      if(var.pacote->idSecaoAtual == -1){
+        idSecaoAtual = var.pacote->idArmazemDestino;
+      }
+      else{
+        idSecaoAtual = var.pacote->idSecaoAtual;
+      }
 
       cout << setw(7) << setfill('0') << var.tempoEvento;
       cout << " pacote " << setw(3) << setfill('0') << var.idPacote;
       cout << " armazenado em " << setw(3) << setfill('0') << idArmazemAtual;
-      cout << " na secao " << setw(3) << setfill('0') << var.idArmazemDestino << endl;
+      cout << " na secao " << setw(3) << setfill('0') << idSecaoAtual << endl;
     }
     else if(var.tipo == RemocaoPacote){
       // int idAux = var.idPacote % 1100;
