@@ -17,5 +17,5 @@ obj/armazem.o: src/armazem.cpp include/armazem.hpp include/utils.hpp | obj
 obj/rede.o: src/rede.cpp include/rede.hpp include/utils.hpp include/list.hpp | obj
 	g++ $(CFLAGS) -c src/rede.cpp -o obj/rede.o
 
-obj/escalonador.o: src/escalonador.cpp include/escalonador.hpp include/heap.hpp include/utils.hpp | obj
+obj/escalonador.o: src/escalonador.cpp include/heap.hpp include/utils.hpp include/escalonador.hpp | obj
 	g++ $(CFLAGS) -c src/escalonador.cpp -o obj/escalonador.o

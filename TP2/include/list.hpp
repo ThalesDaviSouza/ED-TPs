@@ -91,12 +91,12 @@ T List<T>::removeFirst(){
   T removido = *this->value;
 
   // Se tem um próximo valor
-  // Puxa os dados para o primeiro elemento e remove o próximo
   if(this->next != nullptr){
     List<int>* noRemover = this->next; 
-    this->value = noRemover->value;
-    noRemover = noRemover->next;
-    delete noRemover;
+    this->value = noRemover->value; // Copia o valor do próximo nó para a cabeça da lista
+    this->next = noRemover->next;   // Avança o ponteiro 'next' da cabeça da lista
+
+    delete noRemover; // Deleta o nó removido
   }
   // Senão, esvazia a cabeça da lista
   else{
@@ -106,6 +106,8 @@ T List<T>::removeFirst(){
 
   return removido;
 }
+
+
 
 template<typename T>
 T* List<T>::lastValue(){

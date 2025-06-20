@@ -69,7 +69,7 @@ public:
 
 class Escalonador{
 public:
-  Escalonador(int numPacotes, Rede* rede, int intervaloTransporte, int custoRemocao);
+  Escalonador(int numPacotes, Rede* rede, int intervaloTransporte, int custoRemocao, int custoTransporte);
   ~Escalonador();
 
   void simularProximoEvento();
@@ -81,6 +81,7 @@ public:
   int intervaloTransporte;
   int custoRemocao;
   int tempoUltimoEvento;
+  int custoTransporte;
   
 private:
   Rede* rede;

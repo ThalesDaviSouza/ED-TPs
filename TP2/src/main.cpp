@@ -51,13 +51,11 @@ int main(int argc, char* argv[]){
     }
   }
   
-  // _log(rede);
-  
   int numPacotes;
   
   arquivo >> numPacotes;
   
-  Escalonador escalonador = Escalonador(numPacotes, &rede, intervaloTransporte, custoRemocao);
+  Escalonador escalonador = Escalonador(numPacotes, &rede, intervaloTransporte, custoRemocao, custoTransporte);
   
   for(int i = 0; i < numPacotes; i++){
     int tempInicial;

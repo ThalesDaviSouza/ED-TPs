@@ -4,14 +4,15 @@
 #include <iostream>
 using namespace std;
 
-Escalonador::Escalonador(int numPacotes, Rede* rede, int intervaloTransporte, int custoRemocao) : 
+Escalonador::Escalonador(int numPacotes, Rede* rede, int intervaloTransporte, int custoRemocao, int custoTransporte) : 
   eventos(Heap<Evento>(3 * numPacotes)), // 3 vezes a quantidade de pacotes para ter uma folga 
   rede(rede), 
   pacotesAtivos(numPacotes), 
   intervaloTransporte(intervaloTransporte),
   quantidadeEventos(0),
   primeiroPacotePostado(true),
-  custoRemocao(custoRemocao) { }
+  custoRemocao(custoRemocao),
+  custoTransporte(custoTransporte) { }
 
 Escalonador::~Escalonador() {
   while(!eventos.Vazio()){
@@ -64,10 +65,18 @@ void Escalonador::addEvento(int tempoEvento, Pacote* pacote, TipoEvento tipo){
 
   }
   else if(tipo == ArmazenamentoPacote){
+    int idOrigem = -1;
+    if(pacote->idSecaoAtual != -1){
+      idOrigem = pacote->idSecaoAtual;
+    }
+    else{
+      idOrigem = pacote->idArmazemOrigem;
+    }
+
     evento = new Evento(
       pacote->id, 
       tempoEvento, 
-      pacote->idArmazemOrigem, 
+      idOrigem, 
       pacote->idArmazemDestino, 
       pacote->idArmazemDestino, 
       ArmazenamentoPacote,
@@ -127,6 +136,17 @@ void Escalonador::addEvento(int tempoEvento, Pacote* pacote, TipoEvento tipo){
       pacote
     );
   }
+  else if(tipo == EntregaPacote){
+    evento = new Evento(
+      pacote->id, 
+      tempoEvento, 
+      pacote->idArmazemOrigem, 
+      pacote->idArmazemDestino, 
+      pacote->idArmazemAtual, 
+      EntregaPacote,
+      pacote
+    );
+  }
 
   if(evento != nullptr){
     ULLI chave = gerarChave(tempoEvento, evento);
@@ -148,6 +168,8 @@ void Escalonador::simularProximoEvento(){
   Evento evento = *prox.value;
   tempoUltimoEvento = prox.value->tempoEvento;
 
+  // _log(evento);
+
   quantidadeEventos--;
 
   if(evento.tipo == PostagemPacote){
@@ -161,39 +183,54 @@ void Escalonador::simularProximoEvento(){
     return;
   }
   else if(evento.tipo == ArmazenamentoPacote){
-    // TODO: validar se o pacote chegou no armazem destino (gerar evento de entrega) 
-    //       ou em um armazém de transporte (gerar evento de armazenamento)
-    
+
     bool alterarDestinoEvento = false;
-    if(!evento.pacote->Rotas->isVazio() && evento.pacote->idArmazemAtual == *evento.pacote->Rotas->lastValue()){
-      cout << "Pacote id:" << evento.pacote->id << " Chegou no destino" << endl;
-    }
-    else{
-      if(evento.pacote->Rotas->isVazio()){
-        alterarDestinoEvento = true;
-      }
-      rede->addPacote(evento.idArmazemOrigem, evento.idArmazemDestino, evento.pacote);
-
-      if(alterarDestinoEvento){
-        evento.idArmazemDestino = evento.pacote->idSecaoAtual;
-      }
+    
+    if(evento.pacote->Rotas->isVazio()){
+      alterarDestinoEvento = true;
     }
 
+    rede->addPacote(evento.idArmazemOrigem, evento.idArmazemDestino, evento.pacote);
+
+    if(alterarDestinoEvento){
+      evento.idArmazemDestino = evento.pacote->idSecaoAtual;
+    }
+    
     _log(evento);
 
   }
   else if(evento.tipo == TransportePacotes){
-    // TODO: programar o próximo evento de transporte
-    cout << "Transporte: " << evento.tempoEvento << endl;
+    // cout << "Transporte: " << evento.tempoEvento << endl;
 
     for(int i = 0; i < rede->numArmazens; i++){
       for(int j = 0; j < rede->armazens[i].numSecoes; j++){
         ProcessarChegadaTransporte(i, j);
       }
     }
+
+    if(this->pacotesAtivos > 0){
+      addEvento(evento.tempoEvento + intervaloTransporte, nullptr, TransportePacotes);
+    }
   }
   else if(evento.tipo == TransportePacote){
-    // TODO: gerar evento de armazenamento no armazém correto
+  
+    List<int>* proxNoRota = evento.pacote->Rotas;
+    int proxArmazem = -1;
+
+    while(*proxNoRota->value != evento.pacote->idArmazemAtual){
+      proxNoRota = proxNoRota->next;
+    }
+    proxNoRota = proxNoRota->next;
+    if(proxNoRota != nullptr && !proxNoRota->isVazio() && *proxNoRota->value != evento.pacote->idArmazemDestino){
+      addEvento(evento.tempoEvento + custoTransporte, evento.pacote, ArmazenamentoPacote);
+    }
+    else{
+      addEvento(evento.tempoEvento + custoTransporte, evento.pacote, EntregaPacote);
+    }
+  }
+  else if(evento.tipo == EntregaPacote){
+    _log(evento);
+    pacotesAtivos--;
   }
 
   // cout << "chave: " << prox.chave << " ";

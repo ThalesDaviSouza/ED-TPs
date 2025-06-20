@@ -34,13 +34,16 @@ List<int>* Rede::calcularRotaPacote(int idArmazemOrigem, int idArmazemDestino){
     visitados[i] = naoVisto;
     anterior[i] = -1;
   }
-
+  
   List<int>* proximos = List<int>::createList();
   proximos->add(idArmazemOrigem);
   visitados[idArmazemOrigem] = visitado;
-
+  
   while (!proximos->isVazio()) {
+    
+    // cout << "remove first " << *proximos->value << endl;
     int atual = proximos->removeFirst();
+    // cout << "pos remove first" << endl;
    
     if (atual == idArmazemDestino) {
       break;
@@ -67,7 +70,6 @@ List<int>* Rede::calcularRotaPacote(int idArmazemOrigem, int idArmazemDestino){
   if(*caminho->value != idArmazemOrigem) {
     // Não foi possível encontrar um caminho
     caminho->limpar();
-    delete caminho;
     caminho = nullptr;
   }
   
