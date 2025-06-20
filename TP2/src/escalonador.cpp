@@ -262,9 +262,7 @@ void Escalonador::ProcessarChegadaTransporte(int idArmazemOrigem, int idSecao){
       pacoteAux = pacotes->value;
       pacotes = pacotes->remove(false);
       pilhaAux = pilhaAux->add(*pacoteAux);
-      
-      // addEvento(tempoUltimoEvento + (numRemocoes * custoRemocao), pacoteAux, RemocaoPacote);
-      
+            
       Evento evento = Evento(
         pacoteAux->id, 
         tempoUltimoEvento + (numRemocoes * custoRemocao), 
@@ -286,34 +284,11 @@ void Escalonador::ProcessarChegadaTransporte(int idArmazemOrigem, int idSecao){
     if(pacoteAux != nullptr){
       // Removo o pacoteAux da pilhaAux
       // para ser colocado em trânsito
-      if(numPacotesEmTransito < rede->capacidadeTransporte){
-        numPacotesEmTransito++;
-        
-        // TODO: adicionar evento no escalonador
+      while(numPacotesEmTransito < rede->capacidadeTransporte){
         addEvento(tempoUltimaRemocao, pilhaAux->value, TransportePacote);
-
-        // List<int>* proxNoRota = pilhaAux->value->Rotas;
-        // int proxArmazem = -1;
-
-        // while(*proxNoRota->value != pilhaAux->value->idArmazemAtual){
-        //   proxNoRota = proxNoRota->next;
-        // }
-        // proxNoRota = proxNoRota->next;
-        // proxArmazem = *proxNoRota->value;
-
-        // Evento eventoRemocao = Evento(
-        //   pilhaAux->value->id, 
-        //   tempoUltimaRemocao, 
-        //   pilhaAux->value->idArmazemOrigem, 
-        //   pilhaAux->value->idArmazemDestino, 
-        //   proxArmazem, 
-        //   TransportePacote,
-        //   pilhaAux->value
-        // );
-
-        // _log(eventoRemocao);
-
         pilhaAux = pilhaAux->remove(false);
+        
+        numPacotesEmTransito++;
       }
 
       // Quem não foi colocado em transito
@@ -323,7 +298,6 @@ void Escalonador::ProcessarChegadaTransporte(int idArmazemOrigem, int idSecao){
         auto aux = pilhaAux->value;
         pilhaAux = pilhaAux->remove(false);
         pacotes = pacotes->add(*aux);
-        // addEvento(tempoUltimaRemocao, aux, RealocacaoPacote);
 
         Evento evento = Evento(
           aux->id, 
