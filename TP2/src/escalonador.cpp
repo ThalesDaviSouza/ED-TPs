@@ -42,9 +42,8 @@ ULLI Escalonador::gerarChave(int tempo, Evento* evento){
     int idAux = evento->pacote->id;
     digitoMeio = idAux;
   }
-
-  chave = (tempo * 10000000) + (digitoMeio * 10) + digitoTipo; 
-
+  chave = ((ULLI)tempo * 10000000) + (digitoMeio * 10) + digitoTipo; 
+  
   return chave;
 }
 
@@ -169,6 +168,7 @@ void Escalonador::simularProximoEvento(){
   tempoUltimoEvento = prox.value->tempoEvento;
 
   // cout << "Tipo evento: " << evento.tipo << endl;
+  // cout << "Chave evento: " << prox.chave << endl;
   // _log(evento);
 
 
