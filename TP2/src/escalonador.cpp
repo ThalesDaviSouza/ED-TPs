@@ -250,7 +250,7 @@ void Escalonador::ProcessarChegadaTransporte(int idArmazemOrigem, int idSecao){
   }
   
   if(secoes != nullptr){
-    auto pacotes = secoes->value->pacotes;
+    Pilha<Pacote>* pacotes = secoes->value->pacotes;
     int numRemocoes = 1;
     int numPacotesEmTransito = 0;
     int tempoUltimaRemocao = 0;
@@ -280,6 +280,8 @@ void Escalonador::ProcessarChegadaTransporte(int idArmazemOrigem, int idSecao){
 
       numRemocoes++;
     }
+
+    secoes->value->pacotes = pacotes;
 
     tempoUltimaRemocao = tempoUltimoEvento + ((numRemocoes-1) * custoRemocao);
     numPacotesEmTransito = 0;
@@ -315,6 +317,8 @@ void Escalonador::ProcessarChegadaTransporte(int idArmazemOrigem, int idSecao){
         _log(evento);
 
       }
+
+      secoes->value->pacotes = pacotes;
     }
   }
 }

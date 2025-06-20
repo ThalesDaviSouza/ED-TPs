@@ -41,9 +41,7 @@ List<int>* Rede::calcularRotaPacote(int idArmazemOrigem, int idArmazemDestino){
   
   while (!proximos->isVazio()) {
     
-    // cout << "remove first " << *proximos->value << endl;
     int atual = proximos->removeFirst();
-    // cout << "pos remove first" << endl;
    
     if (atual == idArmazemDestino) {
       break;
@@ -86,6 +84,7 @@ void Rede::addPacote(int idArmazem, int idArmazemDestino, Pacote* pacote){
     List<int>* aux = rota;
     
     pacote->Rotas = rota;
+    
   }
       
   armazens[idArmazem].ArmazenarPacote(*pacote);
