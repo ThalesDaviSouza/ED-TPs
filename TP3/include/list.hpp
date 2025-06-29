@@ -38,6 +38,25 @@ public:
         clear();
     }
 
+    List(const List& other) {
+        // Implementação do construtor de cópia
+        head = tail = nullptr;
+        size = 0;
+        for (Node* current = other.head; current != nullptr; current = current->next) {
+            push_back(current->data);
+        }
+    }
+
+    List& operator=(const List& other) {
+        if (this != &other) {
+            clear();
+            for (Node* current = other.head; current != nullptr; current = current->next) {
+                push_back(current->data);
+            }
+        }
+        return *this;
+    }
+
     // Adiciona elemento no final
     void push_back(const T& data) {
         Node* newNode = new Node(data);
