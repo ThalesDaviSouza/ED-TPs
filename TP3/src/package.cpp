@@ -11,8 +11,9 @@ const List<Event>& Package::getEvents() const {
 }
 
 Event Package::getLastEvent() const {
-    if(events.empty()) {
-        throw std::runtime_error("Pacote " + std::to_string(id) + " não possui eventos");
+    if (events.getSize() == 0) {
+        // Retorna um evento inválido/vazio em vez de lançar exceção
+        return Event(0, RG, -1);  // Timestamp 0, tipo RG, ID -1
     }
 
     // Método 1: Usando getLastNode()
@@ -39,18 +40,20 @@ int Package::getId() const {
 }
 
 std::string Package::getCurrentStatus() const {
-    if (events.getSize() == 0) return "No events";
+    if (events.getSize() == 0) return "Sem eventos";
     
     Event last = getLastEvent();
+    if (last.packageId == -1) return "Pacote inválido";
+    
     switch (last.type) {
-        case RG: return "Registered";
-        case AR: return "Stored in warehouse " + std::to_string(last.destinationWarehouse) + 
-                       ", section " + std::to_string(last.destinationSection);
-        case RM: return "Removed from warehouse " + std::to_string(last.originWarehouse);
-        case UR: return "Restored in warehouse " + std::to_string(last.destinationWarehouse);
-        case TR: return "In transit from warehouse " + std::to_string(last.originWarehouse) + 
-                      " to warehouse " + std::to_string(last.destinationWarehouse);
-        case EN: return "Delivered to warehouse " + std::to_string(last.destinationWarehouse);
-        default: return "Unknown status";
+        case RG: return "Registrado";
+        case AR: return "Armazenado no armazem " + std::to_string(last.destinationWarehouse) + 
+                       ", secao " + std::to_string(last.destinationSection);
+        case RM: return "Removido do armazem " + std::to_string(last.originWarehouse);
+        case UR: return "Rearmazenado no armazem " + std::to_string(last.destinationWarehouse);
+        case TR: return "Em transito do armazem " + std::to_string(last.originWarehouse) + 
+                      " para o armazem " + std::to_string(last.destinationWarehouse);
+        case EN: return "Entregue no armazem " + std::to_string(last.destinationWarehouse);
+        default: return "Status desconhecido";
     }
 }

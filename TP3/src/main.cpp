@@ -15,9 +15,8 @@ int main(int argc, char* argv[]) {
         std::cerr << "Erro ao abrir o arquivo: " << argv[1] << std::endl;
         return 1;
     }
-
+    else
     {
-        // Criamos o sistema em um escopo isolado
         LogisticsSystem system;
         std::string line;
         
@@ -28,16 +27,17 @@ int main(int argc, char* argv[]) {
                 try {
                     Event event = Event::fromString(line);
                     system.processEvent(event);
-                } catch (const std::exception& e) {
+                } 
+                catch (const std::exception& e) {
                     std::cerr << "Erro ao processar evento: " << e.what() << std::endl;
                     std::cerr << "Linha: " << line << std::endl;
                 }
-            } else if (line.find("PC") != std::string::npos || line.find("CL") != std::string::npos) {
+            } 
+            else if (line.find("PC") != std::string::npos || line.find("CL") != std::string::npos) {
                 system.processQuery(line);
             }
         }
         
-        // O sistema será destruído automaticamente ao sair deste escopo
     }
 
     inputFile.close();

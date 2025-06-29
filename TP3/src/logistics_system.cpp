@@ -9,15 +9,7 @@ std::string clientKeyFunc(Client* c) { return c->getName(); }
 LogisticsSystem::LogisticsSystem() 
     : packages(packageKeyFunc), clients(clientKeyFunc) {}
 
-LogisticsSystem::~LogisticsSystem() {
-    // // Limpeza de memória para Packages
-    // auto deletePackage = [](Package* p) { delete p; };
-    // packages.inOrder(deletePackage);
-    
-    // // Limpeza de memória para Clients
-    // auto deleteClient = [](Client* c) { delete c; };
-    // clients.inOrder(deleteClient);
-}
+LogisticsSystem::~LogisticsSystem() { }
 
 Package* LogisticsSystem::getOrCreatePackage(int packageId) {
     Package* pkg = packages.search(packageId);
@@ -25,6 +17,7 @@ Package* LogisticsSystem::getOrCreatePackage(int packageId) {
         pkg = new Package(packageId);
         packages.insert(pkg);
     }
+    
     return pkg;
 }
 
@@ -40,6 +33,7 @@ Client* LogisticsSystem::getOrCreateClient(const std::string& name) {
 void LogisticsSystem::processEvent(const Event& event) {
     Package* pkg = getOrCreatePackage(event.packageId);
     pkg->addEvent(event);
+
     
     if (event.type == RG) {
         Client* sender = getOrCreateClient(event.sender);
@@ -111,7 +105,6 @@ void LogisticsSystem::processQuery(const std::string& line) {
         // Imprime cada pacote
         for (const auto& pair : packages) {
             Package* pkg = pair.first;
-            // const std::string& role = pair.second;
             Event lastEvent = pkg->getLastEvent();
             
             std::cout << std::setfill('0') << std::setw(7) << lastEvent.timestamp << " EV ";
@@ -163,7 +156,7 @@ List<std::pair<Package*, std::string>> LogisticsSystem::getClientPackages(const 
         // Pacotes onde o cliente é remetente
         for (int pkgId : client->getSenderPackages()) {
             Package* pkg = packages.search(pkgId);
-            if (pkg) {
+            if (pkg && pkg->getEvents().getSize() > 0) { 
                 result.push_back(std::make_pair(pkg, "sender"));
             }
         }
@@ -171,7 +164,7 @@ List<std::pair<Package*, std::string>> LogisticsSystem::getClientPackages(const 
         // Pacotes onde o cliente é destinatário
         for (int pkgId : client->getReceiverPackages()) {
             Package* pkg = packages.search(pkgId);
-            if (pkg) {
+            if (pkg && pkg->getEvents().getSize() > 0) { 
                 result.push_back(std::make_pair(pkg, "receiver"));
             }
         }

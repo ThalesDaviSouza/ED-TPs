@@ -1,6 +1,7 @@
 #include "../include/event.hpp"
 #include <sstream>
 #include <stdexcept>
+#include <iostream>
 
 Event::Event(int timestamp, EventType type, int packageId, 
              const std::string& sender, const std::string& receiver,
@@ -73,6 +74,8 @@ Event Event::fromString(const std::string& line) {
         destinationWarehouse = std::stoi(token);
     }
     
-    return Event(timestamp, type, packageId, sender, receiver, 
-                originWarehouse, destinationWarehouse, destinationSection);
+    Event retorno = Event(timestamp, type, packageId, sender, receiver, 
+                originWarehouse, destinationWarehouse, destinationSection); 
+    
+    return retorno;
 }
