@@ -10,13 +10,13 @@ LogisticsSystem::LogisticsSystem()
     : packages(packageKeyFunc), clients(clientKeyFunc) {}
 
 LogisticsSystem::~LogisticsSystem() {
-    // Limpeza de memória para Packages
-    auto deletePackage = [](Package* p) { delete p; };
-    packages.inOrder(deletePackage);
+    // // Limpeza de memória para Packages
+    // auto deletePackage = [](Package* p) { delete p; };
+    // packages.inOrder(deletePackage);
     
-    // Limpeza de memória para Clients
-    auto deleteClient = [](Client* c) { delete c; };
-    clients.inOrder(deleteClient);
+    // // Limpeza de memória para Clients
+    // auto deleteClient = [](Client* c) { delete c; };
+    // clients.inOrder(deleteClient);
 }
 
 Package* LogisticsSystem::getOrCreatePackage(int packageId) {

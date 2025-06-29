@@ -10,31 +10,6 @@ const List<Event>& Package::getEvents() const {
     return events;
 }
 
-// Event Package::getLastEvent() const {
-//     std::cout << "DEU RUIM" << std::endl;
-//     if (events.getSize() == 0) {
-//         throw std::runtime_error("No events for package");
-//     }
-//     std::cout << "DEU RUIM2" << std::endl;
-//     std::cout << "Quantidade de eventos: " << events.getSize() << std::endl;
-    
-//     // Inicializamos com o primeiro evento
-//     auto test = events.begin();
-//     std::cout << "DEU RUIM 1/2" << std::endl;
-//     auto test2 = *events.begin();
-//     std::cout << "DEU RUIM 2/2" << std::endl;
-    
-//     Event lastEvent = *events.begin();  // Usando o iterador para acessar o primeiro elemento
-//     std::cout << "DEU RUIM3" << std::endl;
-    
-//     // Percorremos o restante da lista
-//     for (const auto& event : events) {
-//         lastEvent = event;  // Atualizamos lastEvent a cada iteração
-//     }
-
-//     return lastEvent;
-// }
-
 Event Package::getLastEvent() const {
     if(events.empty()) {
         throw std::runtime_error("Pacote " + std::to_string(id) + " não possui eventos");
