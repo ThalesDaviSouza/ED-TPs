@@ -1,21 +1,43 @@
-CFLAGS = -I include
+# Configurações do compilador
+CXX := g++
+CXXFLAGS := -std=c++11 -Wall -Wextra -Iinclude
+LDFLAGS := 
 
-all: output
+# Diretórios
+SRC_DIR := src
+OBJ_DIR := obj
+BIN_DIR := bin
 
-output: obj/pacote.o obj/armazem.o obj/rede.o obj/escalonador.o obj/main.o
-	g++ -o bin/tp2.out obj/pacote.o obj/armazem.o obj/rede.o obj/escalonador.o obj/main.o
+# Arquivos fonte
+SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+TARGET := $(BIN_DIR)/tp3.exe
 
-obj/main.o: src/main.cpp include/utils.hpp include/list.hpp include/heap.hpp include/pilha.hpp | obj
-	g++ $(CFLAGS) -c src/main.cpp -o obj/main.o
+# Regra padrão
+all: $(TARGET)
 
-obj/pacote.o: src/pacote.cpp include/pacote.hpp | obj
-	g++ $(CFLAGS) -c src/pacote.cpp -o obj/pacote.o
+# Regra para criar o executável
+$(TARGET): $(OBJS) | $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
-obj/armazem.o: src/armazem.cpp include/armazem.hpp | obj
-	g++ $(CFLAGS) -c src/armazem.cpp -o obj/armazem.o
+# Regras para compilar cada arquivo objeto
+$(OBJ_DIR)/avl_tree.o: $(SRC_DIR)/avl_tree.cpp include/avl_tree.hpp | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-obj/rede.o: src/rede.cpp include/rede.hpp include/list.hpp | obj
-	g++ $(CFLAGS) -c src/rede.cpp -o obj/rede.o
+$(OBJ_DIR)/list.o: $(SRC_DIR)/list.cpp include/list.hpp | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-obj/escalonador.o: src/escalonador.cpp include/heap.hpp include/escalonador.hpp | obj
-	g++ $(CFLAGS) -c src/escalonador.cpp -o obj/escalonador.o
+$(OBJ_DIR)/event.o: $(SRC_DIR)/event.cpp include/event.hpp | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/package.o: $(SRC_DIR)/package.cpp include/package.hpp include/list.hpp | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/client.o: $(SRC_DIR)/client.cpp include/client.hpp include/list.hpp | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/logistics_system.o: $(SRC_DIR)/logistics_system.cpp include/logistics_system.hpp include/avl_tree.hpp include/event.hpp include/package.hpp include/client.hpp | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp include/logistics_system.hpp | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@

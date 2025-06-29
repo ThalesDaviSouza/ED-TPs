@@ -1,159 +1,131 @@
-#ifndef LIST_H
-#define LIST_H
+#ifndef LIST_HPP
+#define LIST_HPP
 
-#include <memory>
+#include <stdexcept>
+#include <iostream>
 
-using namespace std;
-
-/// Lista encadeada genérica (implementada com ponteiros e sem sentinela).
-/// Usada no TP2 para representar, por exemplo, a lista de seções de um armazém e a rota dos pacotes.
-template<typename T>
-class List{
-public:
-  T* value;              ///< Ponteiro para o valor armazenado no nó.
-  List<T>* next;         ///< Ponteiro para o próximo nó da lista.
-  
-  /// Cria uma nova lista vazia.
-  static List<T>* createList();
-
-  /// Adiciona um novo valor no final da lista.
-  void add(T& newValue);
-
-  /// Adiciona um novo valor no início da lista (retorna novo ponteiro para a cabeça).
-  List<T>* addFirst(T& newValue);
-
-  /// Remove o primeiro elemento da lista (reestrutura a cabeça da lista) e retorna o valor removido.
-  T removeFirst();
-
-  /// Retorna ponteiro para o último valor da lista.
-  T* lastValue();
-
-  /// Remove recursivamente todos os nós da lista.
-  void limpar();
-
-  /// Verifica se a lista está vazia.
-  bool isVazio();
-
-  /// Verifica se o nó atual tem um valor associado.
-  bool hasValue();
-  
+template <typename T>
+class List {
 private:
-  /// Construtor de nó preenchido (valor + próximo).
-  List(T& value, List* next)
-  : value(&value), next(next) { };
+    struct Node {
+        T data;
+        Node* next;
+        Node(const T& data) : data(data), next(nullptr) {}
+    };
+    
+    Node* head;
+    Node* tail;
+    int size;
 
-  /// Construtor de nó vazio.
-  List()
-  : value(nullptr), next(nullptr) { };
+    // Método auxiliar para limpar a lista
+    void clear() {
+        Node* current = head;
+        while (current != nullptr) {
+            Node* next = current->next;
+            delete current;
+            current = next;
+        }
+        head = tail = nullptr;
+        size = 0;
+    }
+
+public:
+    // Construtor
+    List() : head(nullptr), tail(nullptr), size(0) {}
+
+    // Destrutor
+    ~List() {
+        clear();
+    }
+
+    // Adiciona elemento no final
+    void push_back(const T& data) {
+        Node* newNode = new Node(data);
+        if (!head) {
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+        size++;
+    }
+
+    // Retorna o tamanho da lista
+    int getSize() const {
+        return size;
+    }
+
+    // Verifica se a lista está vazia
+    bool empty() const {
+        return size == 0;
+    }
+
+    // Obtém o último nó (solução alternativa para getLastEvent)
+    Node* getLastNode() const {
+        if (!tail) {
+            throw std::runtime_error("Tentativa de acessar último nó de lista vazia");
+        }
+        return tail;
+    }
+
+    // Obtém o primeiro nó
+    Node* getFirstNode() const {
+        if (!head) {
+            throw std::runtime_error("Tentativa de acessar primeiro nó de lista vazia");
+        }
+        return head;
+    }
+
+    // Iterador seguro
+    class Iterator {
+    public:
+        Iterator(Node* node) : current(node) {}
+        
+        // Verifica se o iterador é válido
+        bool isValid() const {
+            return current != nullptr;
+        }
+
+        // Operador de dereferenciamento seguro
+        T& operator*() {
+            if (!current) {
+                throw std::runtime_error("Tentativa de dereferenciar iterador inválido");
+            }
+            return current->data;
+        }
+
+        // Operador de pré-incremento
+        Iterator& operator++() {
+            if (current) {
+                current = current->next;
+            }
+            return *this;
+        }
+
+        // Operador de desigualdade
+        bool operator!=(const Iterator& other) const {
+            return current != other.current;
+        }
+
+        // Acesso direto ao nó atual (para depuração)
+        Node* node() const {
+            return current;
+        }
+
+    private:
+        Node* current;
+    };
+
+    // Iteradores
+    Iterator begin() const {
+        return Iterator(head);
+    }
+
+    Iterator end() const {
+        return Iterator(nullptr);
+    }
+
+    
 };
 
-/// Cria uma lista vazia (sem valor nem próximo).
-template<typename T>
-List<T>* List<T>::createList(){
-  return new List();
-}
-
-/// Verifica se o nó atual da lista contém um valor.
-template<typename T>
-bool List<T>::hasValue(){
-  return this != nullptr && this->value != nullptr;
-}
-
-/// Adiciona um novo valor ao final da lista.
-/// Se for o primeiro elemento, simplesmente define o valor na cabeça.
-template<typename T>
-void List<T>::add(T& newValue){
-  List<T>* last = this;
-
-  // Lista vazia
-  if(this->value == nullptr){
-    this->value = &newValue;
-    return;
-  }
-
-  // Percorre até o último elemento
-  while (last->next != nullptr)
-  {
-    last = last->next;
-  }
-
-  // Adiciona novo nó ao final
-  last->next = new List(newValue, nullptr);
-}
-
-/// Adiciona um novo valor no início da lista.
-/// Se a lista estiver vazia, apenas define o valor.
-/// Caso contrário, cria um novo nó e retorna ele como nova cabeça da lista.
-template<typename T>
-List<T>* List<T>::addFirst(T& newValue){
-  if(this->isVazio()){
-    this->value = &newValue;
-    return this;
-  }
-
-  List<T>* novo = new List<T>(newValue, this);
-  
-  return novo;
-}
-
-/// Remove todos os nós da lista recursivamente.
-template<typename T>
-void List<T>::limpar(){
-  List<T>* aux = this;
-  if(aux->next != nullptr){
-    aux->next->limpar();
-  }
-  
-  delete aux;
-}
-
-/// Verifica se a lista está vazia (sem valor e sem próximo).
-template<typename T>
-bool List<T>::isVazio(){
-  return (this->value == nullptr && this->next == nullptr);
-}
-
-/// Remove o primeiro elemento da lista (reestrutura a cabeça) e retorna seu valor.
-template<typename T>
-T List<T>::removeFirst(){
-  if(this->isVazio()){
-    return T{}; // Retorna valor padrão se estiver vazia.
-  }
-
-  T removido = *this->value;
-
-  // Se tiver próximo, reestrutura a lista copiando o próximo nó para este
-  if(this->next != nullptr){
-    List<int>* noRemover = this->next; 
-    this->value = noRemover->value;
-    this->next = noRemover->next;
-
-    delete noRemover;
-  }
-  // Se não tiver próximo, esvazia a cabeça
-  else{
-    this->value = nullptr;
-    this->next = nullptr;
-  }
-
-  return removido;
-}
-
-/// Retorna um ponteiro para o valor do último nó da lista.
-/// Útil para acessar o último elemento diretamente.
-template<typename T>
-T* List<T>::lastValue(){
-  List<T>* aux = this;
-
-  if(aux->isVazio()){
-    return nullptr;
-  }
-
-  while(aux->next != nullptr){
-    aux = aux->next;
-  }
-
-  return aux->value;
-}
-
-#endif
+#endif // LIST_HPP
