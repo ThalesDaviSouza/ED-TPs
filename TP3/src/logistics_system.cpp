@@ -59,12 +59,21 @@ void LogisticsSystem::processQuery(const string& line) {
     
     iss >> timestamp >> type;
     
-    // Imprime a linha da consulta
-    cout << line << endl;
+    // Formata o timestamp com exatamente 6 dígitos
+    string formattedTimestamp = to_string(timestamp);
+    while (formattedTimestamp.length() < 6) {
+        formattedTimestamp = "0" + formattedTimestamp;
+    }
+    formattedTimestamp = formattedTimestamp.substr(formattedTimestamp.length() - 6);
     
+    // Imprime a linha formatada
+    cout << formattedTimestamp << " " << type;
+
     if (type == "PC") {
         int packageId;
         iss >> packageId;
+        cout << " " << setfill('0') << setw(3) << packageId << endl;
+
         List<Event> history = getPackageHistory(packageId);
         
         // Imprime o número de eventos
@@ -103,8 +112,7 @@ void LogisticsSystem::processQuery(const string& line) {
                     << " " << setfill('0') << setw(3) << event.destinationWarehouse;
             } else if (event.type == AR) {
                 cout << " " << setfill('0') << setw(3) << event.originWarehouse
-                    << " " << setfill('0') << setw(3) << event.destinationWarehouse
-                    << " " << setfill('0') << setw(3) << event.destinationSection;
+                    << " " << setfill('0') << setw(3) << event.destinationWarehouse;
             } else if (event.type == RM || event.type == UR || event.type == TR) {
                 cout << " " << setfill('0') << setw(3) << event.originWarehouse
                     << " " << setfill('0') << setw(3) << event.destinationWarehouse;
@@ -117,6 +125,8 @@ void LogisticsSystem::processQuery(const string& line) {
     } else if (type == "CL") {
         string clientName;
         iss >> clientName;
+        cout << " " << clientName << endl;
+
         List<pair<Package*, string>> packages = getClientPackages(clientName);
 
         // Imprime o número de pacotes

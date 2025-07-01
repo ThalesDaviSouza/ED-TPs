@@ -1,5 +1,7 @@
 #include "package.hpp"
 
+using namespace std;
+
 Package::Package(int id) : id(id) {}
 
 void Package::addEvent(const Event& event) {
@@ -19,8 +21,8 @@ Event Package::getLastEvent() const {
     try {
         auto lastNode = events.getLastNode();
         return lastNode->data;
-    } catch (const std::exception& e) {
-        std::cerr << "Erro ao acessar último evento: " << e.what() << std::endl;
+    } catch (const exception& e) {
+        cerr << "Erro ao acessar último evento: " << e.what() << endl;
         throw;
     }
 }
@@ -29,7 +31,7 @@ int Package::getId() const {
     return id;
 }
 
-std::string Package::getCurrentStatus() const {
+string Package::getCurrentStatus() const {
     if (events.getSize() == 0) 
         return "Sem eventos";
     
@@ -41,17 +43,17 @@ std::string Package::getCurrentStatus() const {
         case RG: 
             return "Registrado";
         case AR: 
-            return "Armazenado no armazem " + std::to_string(last.destinationWarehouse) + 
-                    ", secao " + std::to_string(last.destinationSection);
+            return "Armazenado no armazem " + to_string(last.destinationWarehouse) + 
+                    ", secao " + to_string(last.destinationSection);
         case RM: 
-            return "Removido do armazem " + std::to_string(last.originWarehouse);
+            return "Removido do armazem " + to_string(last.originWarehouse);
         case UR: 
-            return "Rearmazenado no armazem " + std::to_string(last.destinationWarehouse);
+            return "Rearmazenado no armazem " + to_string(last.destinationWarehouse);
         case TR: 
-            return "Em transito do armazem " + std::to_string(last.originWarehouse) + 
-                    " para o armazem " + std::to_string(last.destinationWarehouse);
+            return "Em transito do armazem " + to_string(last.originWarehouse) + 
+                    " para o armazem " + to_string(last.destinationWarehouse);
         case EN: 
-            return "Entregue no armazem " + std::to_string(last.destinationWarehouse);
+            return "Entregue no armazem " + to_string(last.destinationWarehouse);
         default: 
             return "Status desconhecido";
     }

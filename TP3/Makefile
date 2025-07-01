@@ -11,7 +11,7 @@ BIN_DIR := bin
 # Arquivos fonte
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
-TARGET := $(BIN_DIR)/tp3.exe
+TARGET := $(BIN_DIR)/tp3.out
 
 # Regra padrão
 all: $(TARGET)
