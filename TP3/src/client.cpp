@@ -1,6 +1,8 @@
-#include "../include/client.hpp"
+#include "client.hpp"
 
-Client::Client(const std::string& name) : name(name) {}
+using namespace std;
+
+Client::Client(const string& name) : name(name) {}
 
 void Client::addSenderPackage(int packageId) {
     senderPackages.push_back(packageId);
@@ -10,7 +12,7 @@ void Client::addReceiverPackage(int packageId) {
     receiverPackages.push_back(packageId);
 }
 
-const std::string& Client::getName() const {
+const string& Client::getName() const {
     return name;
 }
 

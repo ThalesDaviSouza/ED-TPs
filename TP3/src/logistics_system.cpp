@@ -1,13 +1,21 @@
-#include "../include/logistics_system.hpp"
+#include "logistics_system.hpp"
 #include <iomanip>
 #include <sstream>
 
-// Funções auxiliares para extração de chaves
-int packageKeyFunc(Package* p) { return p->getId(); }
-std::string clientKeyFunc(Client* c) { return c->getName(); }
+using namespace std;
 
-LogisticsSystem::LogisticsSystem() 
-    : packages(packageKeyFunc), clients(clientKeyFunc) {}
+// Funções auxiliares para extração de chaves
+int packageKeyFunc(Package* p) { 
+    return p->getId(); 
+}
+
+string clientKeyFunc(Client* c) { 
+    return c->getName(); 
+}
+
+LogisticsSystem::LogisticsSystem() : 
+    packages(packageKeyFunc), 
+    clients(clientKeyFunc) {}
 
 LogisticsSystem::~LogisticsSystem() { }
 
@@ -21,7 +29,7 @@ Package* LogisticsSystem::getOrCreatePackage(int packageId) {
     return pkg;
 }
 
-Client* LogisticsSystem::getOrCreateClient(const std::string& name) {
+Client* LogisticsSystem::getOrCreateClient(const string& name) {
     Client* client = clients.search(name);
     if (!client) {
         client = new Client(name);
@@ -44,15 +52,15 @@ void LogisticsSystem::processEvent(const Event& event) {
     }
 }
 
-void LogisticsSystem::processQuery(const std::string& line) {
-    std::istringstream iss(line);
+void LogisticsSystem::processQuery(const string& line) {
+    istringstream iss(line);
     int timestamp;
-    std::string type;
+    string type;
     
     iss >> timestamp >> type;
     
     // Imprime a linha da consulta
-    std::cout << line << std::endl;
+    cout << line << endl;
     
     if (type == "PC") {
         int packageId;
@@ -60,82 +68,106 @@ void LogisticsSystem::processQuery(const std::string& line) {
         List<Event> history = getPackageHistory(packageId);
         
         // Imprime o número de eventos
-        std::cout << history.getSize() << std::endl;
+        cout << history.getSize() << endl;
         
         // Imprime cada evento
         for (const Event& event : history) {
-            std::cout << std::setfill('0') << std::setw(7) << event.timestamp << " EV ";
+            cout << setfill('0') << setw(7) << event.timestamp << " EV ";
             
             switch (event.type) {
-                case RG: std::cout << "RG "; break;
-                case AR: std::cout << "AR "; break;
-                case RM: std::cout << "RM "; break;
-                case UR: std::cout << "UR "; break;
-                case TR: std::cout << "TR "; break;
-                case EN: std::cout << "EN "; break;
+                case RG: 
+                    cout << "RG ";
+                    break;
+                case AR: 
+                    cout << "AR ";
+                    break;
+                case RM: 
+                    cout << "RM ";
+                    break;
+                case UR: 
+                    cout << "UR ";
+                    break;
+                case TR: 
+                    cout << "TR ";
+                    break;
+                case EN: 
+                    cout << "EN ";
+                    break;
             }
             
-            std::cout << std::setfill('0') << std::setw(3) << event.packageId;
+            cout << setfill('0') << setw(3) << event.packageId;
             
             if (event.type == RG) {
-                std::cout << " " << event.sender << " " << event.receiver
-                          << " " << std::setfill('0') << std::setw(3) << event.originWarehouse
-                          << " " << std::setfill('0') << std::setw(3) << event.destinationWarehouse;
+                cout << " " << event.sender << " " << event.receiver
+                    << " " << setfill('0') << setw(3) << event.originWarehouse
+                    << " " << setfill('0') << setw(3) << event.destinationWarehouse;
             } else if (event.type == AR) {
-                std::cout << " " << std::setfill('0') << std::setw(3) << event.originWarehouse
-                          << " " << std::setfill('0') << std::setw(3) << event.destinationWarehouse
-                          << " " << std::setfill('0') << std::setw(3) << event.destinationSection;
+                cout << " " << setfill('0') << setw(3) << event.originWarehouse
+                    << " " << setfill('0') << setw(3) << event.destinationWarehouse
+                    << " " << setfill('0') << setw(3) << event.destinationSection;
             } else if (event.type == RM || event.type == UR || event.type == TR) {
-                std::cout << " " << std::setfill('0') << std::setw(3) << event.originWarehouse
-                          << " " << std::setfill('0') << std::setw(3) << event.destinationWarehouse;
+                cout << " " << setfill('0') << setw(3) << event.originWarehouse
+                    << " " << setfill('0') << setw(3) << event.destinationWarehouse;
             } else if (event.type == EN) {
-                std::cout << " " << std::setfill('0') << std::setw(3) << event.destinationWarehouse;
+                cout << " " << setfill('0') << setw(3) << event.destinationWarehouse;
             }
             
-            std::cout << std::endl;
+            cout << endl;
         }
     } else if (type == "CL") {
-        std::string clientName;
+        string clientName;
         iss >> clientName;
-        List<std::pair<Package*, std::string>> packages = getClientPackages(clientName);
+        List<pair<Package*, string>> packages = getClientPackages(clientName);
 
         // Imprime o número de pacotes
-        std::cout << packages.getSize() << std::endl;
+        cout << packages.getSize() << endl;
         
         // Imprime cada pacote
         for (const auto& pair : packages) {
             Package* pkg = pair.first;
             Event lastEvent = pkg->getLastEvent();
             
-            std::cout << std::setfill('0') << std::setw(7) << lastEvent.timestamp << " EV ";
+            cout << setfill('0') << setw(7) << lastEvent.timestamp << " EV ";
             
             switch (lastEvent.type) {
-                case RG: std::cout << "RG "; break;
-                case AR: std::cout << "AR "; break;
-                case RM: std::cout << "RM "; break;
-                case UR: std::cout << "UR "; break;
-                case TR: std::cout << "TR "; break;
-                case EN: std::cout << "EN "; break;
+                case RG: 
+                    cout << "RG ";
+                    break;
+                case AR: 
+                    cout << "AR ";
+                    break;
+                case RM: 
+                    cout << "RM ";
+                    break;
+                case UR: 
+                    cout << "UR ";
+                    break;
+                case TR: 
+                    cout << "TR ";
+                    break;
+                case EN: 
+                    cout << "EN ";
+                    break;
             }
             
-            std::cout << std::setfill('0') << std::setw(3) << pkg->getId();
+            cout << setfill('0') << setw(3) << pkg->getId();
             
             if (lastEvent.type == RG) {
-                std::cout << " " << lastEvent.sender << " " << lastEvent.receiver
-                          << " " << std::setfill('0') << std::setw(3) << lastEvent.originWarehouse
-                          << " " << std::setfill('0') << std::setw(3) << lastEvent.destinationWarehouse;
+                cout << " " << lastEvent.sender << " " << lastEvent.receiver
+                    << " " << setfill('0') << setw(3) << lastEvent.originWarehouse
+                    << " " << setfill('0') << setw(3) << lastEvent.destinationWarehouse;
             } else if (lastEvent.type == AR) {
-                std::cout << " " << std::setfill('0') << std::setw(3) << lastEvent.originWarehouse
-                          << " " << std::setfill('0') << std::setw(3) << lastEvent.destinationWarehouse
-                          << " " << std::setfill('0') << std::setw(3) << lastEvent.destinationSection;
+                cout << " " << setfill('0') << setw(3) << lastEvent.originWarehouse
+                    << " " << setfill('0') << setw(3) << lastEvent.destinationWarehouse
+                    << " " << setfill('0') << setw(3) << lastEvent.destinationSection;
             } else if (lastEvent.type == RM || lastEvent.type == UR || lastEvent.type == TR) {
-                std::cout << " " << std::setfill('0') << std::setw(3) << lastEvent.originWarehouse
-                          << " " << std::setfill('0') << std::setw(3) << lastEvent.destinationWarehouse;
+                cout << " " << setfill('0') << setw(3) << lastEvent.originWarehouse
+                    << " " << setfill('0') << setw(3) << lastEvent.destinationWarehouse;
             } else if (lastEvent.type == EN) {
-                std::cout << " " << std::setfill('0') << std::setw(3) << lastEvent.destinationWarehouse;
+                cout << " " << setfill('0') << setw(3) << lastEvent.destinationWarehouse;
             }
             
-            std::cout << std::endl;
+            cout << endl;
         }
     }
 }
@@ -148,8 +180,8 @@ List<Event> LogisticsSystem::getPackageHistory(int packageId) const {
     return List<Event>();
 }
 
-List<std::pair<Package*, std::string>> LogisticsSystem::getClientPackages(const std::string& clientName) const {
-    List<std::pair<Package*, std::string>> result;
+List<pair<Package*, string>> LogisticsSystem::getClientPackages(const string& clientName) const {
+    List<pair<Package*, string>> result;
     Client* client = clients.search(clientName);
     
     if (client) {
@@ -157,7 +189,7 @@ List<std::pair<Package*, std::string>> LogisticsSystem::getClientPackages(const 
         for (int pkgId : client->getSenderPackages()) {
             Package* pkg = packages.search(pkgId);
             if (pkg && pkg->getEvents().getSize() > 0) { 
-                result.push_back(std::make_pair(pkg, "sender"));
+                result.push_back(make_pair(pkg, "sender"));
             }
         }
         
@@ -165,7 +197,7 @@ List<std::pair<Package*, std::string>> LogisticsSystem::getClientPackages(const 
         for (int pkgId : client->getReceiverPackages()) {
             Package* pkg = packages.search(pkgId);
             if (pkg && pkg->getEvents().getSize() > 0) { 
-                result.push_back(std::make_pair(pkg, "receiver"));
+                result.push_back(make_pair(pkg, "receiver"));
             }
         }
     }

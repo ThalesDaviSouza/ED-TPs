@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <iostream>
 
+using namespace std;
+
 template <typename T>
 class List {
 private:
@@ -82,7 +84,7 @@ public:
     // Obtém o último nó (solução alternativa para getLastEvent)
     Node* getLastNode() const {
         if (!tail) {
-            throw std::runtime_error("Tentativa de acessar último nó de lista vazia");
+            throw runtime_error("Tentativa de acessar último nó de lista vazia");
         }
         return tail;
     }
@@ -90,7 +92,7 @@ public:
     // Obtém o primeiro nó
     Node* getFirstNode() const {
         if (!head) {
-            throw std::runtime_error("Tentativa de acessar primeiro nó de lista vazia");
+            throw runtime_error("Tentativa de acessar primeiro nó de lista vazia");
         }
         return head;
     }
@@ -108,7 +110,7 @@ public:
         // Operador de dereferenciamento seguro
         T& operator*() {
             if (!current) {
-                throw std::runtime_error("Tentativa de dereferenciar iterador inválido");
+                throw runtime_error("Tentativa de dereferenciar iterador inválido");
             }
             return current->data;
         }

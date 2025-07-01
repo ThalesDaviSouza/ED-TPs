@@ -3,26 +3,35 @@
 
 #include <string>
 
-enum EventType { RG, AR, RM, UR, TR, EN };
+using namespace std;
+
+enum EventType { 
+    RG, 
+    AR, 
+    RM, 
+    UR, 
+    TR, 
+    EN 
+};
 
 class Event {
 public:
     int timestamp;
     EventType type;
     int packageId;
-    std::string sender;
-    std::string receiver;
+    string sender;
+    string receiver;
     int originWarehouse;
     int destinationWarehouse;
     int destinationSection;
 
     Event(int timestamp, EventType type, int packageId, 
-          const std::string& sender = "", const std::string& receiver = "",
+          const string& sender = "", const string& receiver = "",
           int originWarehouse = -1, int destinationWarehouse = -1,
           int destinationSection = -1);
     
-    static EventType parseEventType(const std::string& typeStr);
-    static Event fromString(const std::string& line);
+    static EventType parseEventType(const string& typeStr);
+    static Event fromString(const string& line);
 };
 
 #endif // EVENT_HPP

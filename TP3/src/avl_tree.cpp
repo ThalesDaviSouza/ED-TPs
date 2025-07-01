@@ -1,6 +1,17 @@
-#include "../include/avl_tree.hpp"
+#include "avl_tree.hpp"
 #include "package.hpp"
 #include "client.hpp"
+
+using namespace std;
+
+int max(int n1, int n2){
+    if(n1 >= n2){
+        return n1;
+    }
+    else{
+        return n2;
+    }
+}
 
 // Construtor
 template <typename T, typename K>
@@ -37,7 +48,7 @@ int AVLTree<T, K>::balanceFactor(AVLNode<T>* node) const {
 // Atualiza altura de um nó
 template <typename T, typename K>
 void AVLTree<T, K>::updateHeight(AVLNode<T>* node) {
-    node->height = 1 + std::max(height(node->left), height(node->right));
+    node->height = 1 + max(height(node->left), height(node->right));
 }
 
 // Rotação à direita
@@ -207,4 +218,4 @@ void AVLTree<T, K>::inOrder(AVLNode<T>* node, void (*visit)(T)) const {
 
 // Instanciações explícitas
 template class AVLTree<Package*, int>;
-template class AVLTree<Client*, std::string>;
+template class AVLTree<Client*, string>;

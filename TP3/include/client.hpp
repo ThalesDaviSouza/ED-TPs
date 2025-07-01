@@ -4,19 +4,21 @@
 #include "list.hpp"
 #include <string>
 
+using namespace std;
+
 class Client {
 private:
-    std::string name;
+    string name;
     List<int> senderPackages;
     List<int> receiverPackages;
 
 public:
-    Client(const std::string& name);
+    Client(const string& name);
     
     void addSenderPackage(int packageId);
     void addReceiverPackage(int packageId);
     
-    const std::string& getName() const;
+    const string& getName() const;
     const List<int>& getSenderPackages() const;
     const List<int>& getReceiverPackages() const;
 };
