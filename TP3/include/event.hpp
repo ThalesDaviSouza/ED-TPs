@@ -30,6 +30,9 @@ public:
           int originWarehouse = -1, int destinationWarehouse = -1,
           int destinationSection = -1);
     
+    // Construtor de cópia
+    Event(const Event& other);
+    
     static EventType parseEventType(const string& typeStr);
     static Event fromString(const string& line);
 };

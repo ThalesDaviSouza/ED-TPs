@@ -21,25 +21,29 @@ public:
     void remove(K key);
     T search(K key) const;
     void inOrder(void (*visit)(T)) const;
-
+    void inOrderWithCallback(void (*visit)(T, void*), void* context) const;
+    int size() const { return count; } 
+    
 private:
     AVLNode<T>* root;
     K (*keyFunc)(T);
-
+    int count;
+    
     AVLNode<T>* insert(AVLNode<T>* node, T data);
     AVLNode<T>* remove(AVLNode<T>* node, K key);
     AVLNode<T>* search(AVLNode<T>* node, K key) const;
     void inOrder(AVLNode<T>* node, void (*visit)(T)) const;
     void clear(AVLNode<T>* node);
-
+    
     int height(AVLNode<T>* node) const;
     int balanceFactor(AVLNode<T>* node) const;
     AVLNode<T>* rightRotate(AVLNode<T>* y);
     AVLNode<T>* leftRotate(AVLNode<T>* x);
     AVLNode<T>* minValueNode(AVLNode<T>* node) const;
     AVLNode<T>* balance(AVLNode<T>* node);
-
+    
     void updateHeight(AVLNode<T>* node);
+    void inOrderWithCallback(AVLNode<T>* node, void (*visit)(T, void*), void* context) const;
 };
 
 #endif // AVL_TREE_HPP

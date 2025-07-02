@@ -15,7 +15,8 @@ int max(int n1, int n2){
 
 // Construtor
 template <typename T, typename K>
-AVLTree<T, K>::AVLTree(K (*keyFunc)(T)) : root(nullptr), keyFunc(keyFunc) {}
+AVLTree<T, K>::AVLTree(K (*keyFunc)(T)) : 
+    root(nullptr), keyFunc(keyFunc), count(0) {}  // Inicializa count
 
 // Destrutor
 template <typename T, typename K>
@@ -114,6 +115,7 @@ AVLNode<T>* AVLTree<T, K>::balance(AVLNode<T>* node) {
 template <typename T, typename K>
 void AVLTree<T, K>::insert(T data) {
     root = insert(root, data);
+    count++;
 }
 
 template <typename T, typename K>
@@ -158,6 +160,7 @@ AVLNode<T>* AVLTree<T, K>::search(AVLNode<T>* node, K key) const {
 template <typename T, typename K>
 void AVLTree<T, K>::remove(K key) {
     root = remove(root, key);
+    count--;
 }
 
 template <typename T, typename K>
@@ -216,6 +219,21 @@ void AVLTree<T, K>::inOrder(AVLNode<T>* node, void (*visit)(T)) const {
     }
 }
 
+template <typename T, typename K>
+void AVLTree<T, K>::inOrderWithCallback(void (*visit)(T, void*), void* context) const {
+    inOrderWithCallback(root, visit, context);
+}
+
+template <typename T, typename K>
+void AVLTree<T, K>::inOrderWithCallback(AVLNode<T>* node, void (*visit)(T, void*), void* context) const {
+    if (node) {
+        inOrderWithCallback(node->left, visit, context);
+        visit(node->data, context);
+        inOrderWithCallback(node->right, visit, context);
+    }
+}
+
 // Instanciações explícitas
 template class AVLTree<Package*, int>;
 template class AVLTree<Client*, string>;
+template class AVLTree<Event*, int>;

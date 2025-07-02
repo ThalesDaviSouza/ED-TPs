@@ -4,56 +4,26 @@ using namespace std;
 
 Package::Package(int id) : id(id) {}
 
-void Package::addEvent(const Event& event) {
-    events.push_back(event);
-}
-
-const List<Event>& Package::getEvents() const {
-    return events;
-}
-
-Event Package::getLastEvent() const {
-    if (events.getSize() == 0) {
-        // Retorna um evento inválido/vazio em vez de lançar exceção
-        return Event(0, RG, -1);  // Timestamp 0, tipo RG, ID -1
-    }
-
-    try {
-        auto lastNode = events.getLastNode();
-        return lastNode->data;
-    } catch (const exception& e) {
-        cerr << "Erro ao acessar último evento: " << e.what() << endl;
-        throw;
-    }
-}
-
 int Package::getId() const {
     return id;
 }
 
-string Package::getCurrentStatus() const {
-    if (events.getSize() == 0) 
-        return "Sem eventos";
-    
-    Event last = getLastEvent();
-    if (last.packageId == -1) 
-        return "Pacote inválido";
-    
-    switch (last.type) {
+string Package::getCurrentStatus(const Event& lastEvent) const {
+    switch (lastEvent.type) {
         case RG: 
             return "Registrado";
         case AR: 
-            return "Armazenado no armazem " + to_string(last.destinationWarehouse) + 
-                    ", secao " + to_string(last.destinationSection);
+            return "Armazenado no armazem " + to_string(lastEvent.destinationWarehouse) + 
+                    ", secao " + to_string(lastEvent.destinationSection);
         case RM: 
-            return "Removido do armazem " + to_string(last.originWarehouse);
+            return "Removido do armazem " + to_string(lastEvent.originWarehouse);
         case UR: 
-            return "Rearmazenado no armazem " + to_string(last.destinationWarehouse);
+            return "Rearmazenado no armazem " + to_string(lastEvent.destinationWarehouse);
         case TR: 
-            return "Em transito do armazem " + to_string(last.originWarehouse) + 
-                    " para o armazem " + to_string(last.destinationWarehouse);
+            return "Em transito do armazem " + to_string(lastEvent.originWarehouse) + 
+                    " para o armazem " + to_string(lastEvent.destinationWarehouse);
         case EN: 
-            return "Entregue no armazem " + to_string(last.destinationWarehouse);
+            return "Entregue no armazem " + to_string(lastEvent.destinationWarehouse);
         default: 
             return "Status desconhecido";
     }

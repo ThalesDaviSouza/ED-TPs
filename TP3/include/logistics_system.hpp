@@ -6,6 +6,7 @@
 #include "package.hpp"
 #include "client.hpp"
 #include "list.hpp"
+#include "event.hpp"
 #include <string>
 #include <utility> // para pair
 
@@ -15,6 +16,7 @@ class LogisticsSystem {
 private:
     AVLTree<Package*, int> packages;  // Chave: int (packageId), Valor: Package*
     AVLTree<Client*, string> clients;  // Chave: string (client name), Valor: Client*
+    AVLTree<Event*, int> events;      // Chave: timestamp, Valor: Event*
     
     Package* getOrCreatePackage(int packageId);
     Client* getOrCreateClient(const string& name);

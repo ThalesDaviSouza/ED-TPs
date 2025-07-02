@@ -102,3 +102,13 @@ Event Event::fromString(const string& line) {
     
     return retorno;
 }
+
+Event::Event(const Event& other) :
+    timestamp(other.timestamp),
+    type(other.type),
+    packageId(other.packageId),
+    sender(other.sender),
+    receiver(other.receiver),
+    originWarehouse(other.originWarehouse),
+    destinationWarehouse(other.destinationWarehouse),
+    destinationSection(other.destinationSection) {}
