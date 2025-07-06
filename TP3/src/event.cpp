@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Construtor que inicializa todos os atributos de um evento
 Event::Event(
     int timestamp, 
     EventType type, 
@@ -25,71 +26,81 @@ Event::Event(
     destinationSection(destinationSection) 
 {}
 
+// Converte string para o tipo de evento correspondente
 EventType Event::parseEventType(const string& typeStr) {
-    if (typeStr == "RG") return RG;
-    if (typeStr == "AR") return AR;
-    if (typeStr == "RM") return RM;
-    if (typeStr == "UR") return UR;
-    if (typeStr == "TR") return TR;
-    if (typeStr == "EN") return EN;
+    if (typeStr == "RG") return RG;       // Registro
+    if (typeStr == "AR") return AR;       // Armazenamento
+    if (typeStr == "RM") return RM;       // Remoção
+    if (typeStr == "UR") return UR;       // Re-armazenamento
+    if (typeStr == "TR") return TR;       // Transporte
+    if (typeStr == "EN") return EN;       // Entrega
     throw invalid_argument("Tipo de evento invalido");
 }
 
+// Cria um Event a partir de uma string formatada
 Event Event::fromString(const string& line) {
     istringstream iss(line);
     string token;
     
-    // Ler timestamp
+    // Extrai os campos básicos que todos os eventos têm
     getline(iss, token, ' ');
     int timestamp = stoi(token);
     
-    // Ler tipo (EV)
     getline(iss, token, ' ');
     
-    // Ler tipo de evento
     getline(iss, token, ' ');
     EventType type = parseEventType(token);
     
-    // Ler ID do pacote
     getline(iss, token, ' ');
     int packageId = stoi(token);
     
-    // Restante dos campos dependem do tipo de evento
+    // Inicializa campos opcionais com valores padrão
     string sender, receiver;
     int originWarehouse = -1;
     int destinationWarehouse = -1;
     int destinationSection = -1;
     
+    // Extrai campos específicos para cada tipo de evento
     if (type == RG) {
+        // RG tem remetente, destinatário e armazéns de origem/destino
         getline(iss, sender, ' ');
         getline(iss, receiver, ' ');
         getline(iss, token, ' ');
         originWarehouse = stoi(token);
         getline(iss, token, ' ');
         destinationWarehouse = stoi(token);
-    } else if (type == AR) {
+    } 
+    else if (type == AR) {
+        // AR tem armazéns e seção de destino
         getline(iss, token, ' ');
         originWarehouse = stoi(token);
         getline(iss, token, ' ');
         destinationWarehouse = stoi(token);
         getline(iss, token, ' ');
         destinationSection = stoi(token);
-    } else if (type == RM || type == UR) {
+    } 
+    else if (type == RM || type == UR) {
+        // RM/UR tem apenas armazéns
         getline(iss, token, ' ');
         originWarehouse = stoi(token);
         getline(iss, token, ' ');
         destinationWarehouse = stoi(token);
-    } else if (type == TR) {
+    } 
+    else if (type == TR) {
+        // TR tem armazéns de origem/destino
         getline(iss, token, ' ');
         originWarehouse = stoi(token);
         getline(iss, token, ' ');
         destinationWarehouse = stoi(token);
-    } else if (type == EN) {
+    } 
+    else if (type == EN) {
+        // EN tem apenas armazém de destino
         getline(iss, token, ' ');
         destinationWarehouse = stoi(token);
     }
     
-    Event retorno = Event(
+    // Cria e retorna o evento com os dados extraídos
+    return Event(
         timestamp, 
         type, 
         packageId, 
@@ -98,11 +109,10 @@ Event Event::fromString(const string& line) {
         originWarehouse, 
         destinationWarehouse, 
         destinationSection
-    ); 
-    
-    return retorno;
+    );
 }
 
+// Construtor de cópia - copia todos os campos do outro evento
 Event::Event(const Event& other) :
     timestamp(other.timestamp),
     type(other.type),

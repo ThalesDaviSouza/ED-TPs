@@ -6,20 +6,22 @@
 
 using namespace std;
 
+// Lista encadeada simples genérica
 template <typename T>
 class List {
 private:
+    // Estrutura de nó da lista
     struct Node {
-        T data;
-        Node* next;
+        T data;        // Valor armazenado
+        Node* next;    // Ponteiro para o próximo nó
         Node(const T& data) : data(data), next(nullptr) {}
     };
     
-    Node* head;
-    Node* tail;
-    int size;
+    Node* head;  // Início da lista
+    Node* tail;  // Fim da lista
+    int size;    // Quantidade de elementos
 
-    // Método auxiliar para limpar a lista
+    // Função auxiliar para liberar todos os nós da lista
     void clear() {
         Node* current = head;
         while (current != nullptr) {
@@ -32,16 +34,16 @@ private:
     }
 
 public:
-    // Construtor
+    // Construtor padrão
     List() : head(nullptr), tail(nullptr), size(0) {}
 
     // Destrutor
     ~List() {
-        clear();
+        clear(); // Libera memória dos nós
     }
 
+    // Construtor de cópia
     List(const List& other) {
-        // Implementação do construtor de cópia
         head = tail = nullptr;
         size = 0;
         for (Node* current = other.head; current != nullptr; current = current->next) {
@@ -49,9 +51,10 @@ public:
         }
     }
 
+    // Operador de atribuição por cópia
     List& operator=(const List& other) {
         if (this != &other) {
-            clear();
+            clear(); // Limpa a lista atual
             for (Node* current = other.head; current != nullptr; current = current->next) {
                 push_back(current->data);
             }
@@ -59,11 +62,11 @@ public:
         return *this;
     }
 
-    // Adiciona elemento no final
+    // Adiciona elemento ao final da lista
     void push_back(const T& data) {
         Node* newNode = new Node(data);
         if (!head) {
-            head = tail = newNode;
+            head = tail = newNode; // Primeiro elemento
         } else {
             tail->next = newNode;
             tail = newNode;
@@ -71,7 +74,7 @@ public:
         size++;
     }
 
-    // Retorna o tamanho da lista
+    // Retorna a quantidade de elementos da lista
     int getSize() const {
         return size;
     }
@@ -81,7 +84,7 @@ public:
         return size == 0;
     }
 
-    // Obtém o último nó (solução alternativa para getLastEvent)
+    // Retorna o último nó da lista
     Node* getLastNode() const {
         if (!tail) {
             throw runtime_error("Tentativa de acessar último nó de lista vazia");
@@ -89,7 +92,7 @@ public:
         return tail;
     }
 
-    // Obtém o primeiro nó
+    // Retorna o primeiro nó da lista
     Node* getFirstNode() const {
         if (!head) {
             throw runtime_error("Tentativa de acessar primeiro nó de lista vazia");
@@ -97,17 +100,17 @@ public:
         return head;
     }
 
-    // Iterador seguro
+    // Classe interna de iterador para percorrer a lista
     class Iterator {
     public:
         Iterator(Node* node) : current(node) {}
         
-        // Verifica se o iterador é válido
+        // Verifica se o iterador ainda é válido
         bool isValid() const {
             return current != nullptr;
         }
 
-        // Operador de dereferenciamento seguro
+        // Acesso ao conteúdo do nó atual
         T& operator*() {
             if (!current) {
                 throw runtime_error("Tentativa de dereferenciar iterador inválido");
@@ -115,7 +118,7 @@ public:
             return current->data;
         }
 
-        // Operador de pré-incremento
+        // Avança o iterador (pré-incremento)
         Iterator& operator++() {
             if (current) {
                 current = current->next;
@@ -123,12 +126,12 @@ public:
             return *this;
         }
 
-        // Operador de desigualdade
+        // Verifica desigualdade entre iteradores
         bool operator!=(const Iterator& other) const {
             return current != other.current;
         }
 
-        // Acesso direto ao nó atual (para depuração)
+        // Acesso ao nó (útil para depuração)
         Node* node() const {
             return current;
         }
@@ -137,16 +140,15 @@ public:
         Node* current;
     };
 
-    // Iteradores
+    // Retorna iterador para o início da lista
     Iterator begin() const {
         return Iterator(head);
     }
 
+    // Retorna iterador para o fim da lista (nullptr)
     Iterator end() const {
         return Iterator(nullptr);
     }
-
-    
 };
 
 #endif // LIST_HPP
